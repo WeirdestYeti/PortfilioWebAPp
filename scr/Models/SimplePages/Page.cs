@@ -7,6 +7,6 @@ namespace PortfolioWebApp.Models.SimplePages
 {
     public class Page
     {
-
+        public int Id { get; set; }
     }
 }

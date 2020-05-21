@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PortfolioWebApp.Data;
 using PortfolioWebApp.Models.Accounts;
+using PortfolioWebApp.Services;
 
 namespace PortfolioWebApp
 {
@@ -36,7 +37,8 @@ namespace PortfolioWebApp
                 .AddRazorPagesOptions(options => 
                 {
                     options.Conventions.AuthorizeAreaFolder("Admin", "/");   
-                });
+                }
+                ).AddRazorRuntimeCompilation();
 
             services.ConfigureApplicationCookie(options =>
             {
@@ -44,6 +46,8 @@ namespace PortfolioWebApp
                 options.LogoutPath = $"/Identity/Account/Logout";
                 options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
             });
+
+            services.AddTransient<SimplePageService>();
 
         }
 
@@ -53,6 +57,7 @@ namespace PortfolioWebApp
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseBrowserLink();
             }
             else
             {

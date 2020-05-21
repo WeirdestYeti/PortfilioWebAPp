@@ -29,9 +29,12 @@ namespace PortfolioWebApp.TagHelpers
 
             string activeWhen = null;
 
+            // Check if link has the attribute
             if (output.Attributes.ContainsName("active-when"))
             {
+                // Get the value of the attribute and remove it from the page.
                 activeWhen = output.Attributes.Single(x => x.Name.Equals("active-when")).Value.ToString();
+                output.Attributes.RemoveAll("active-when");
             }
 
             if (ShouldBeActive(activeWhen))
@@ -46,6 +49,8 @@ namespace PortfolioWebApp.TagHelpers
         {
             string currentPage = ViewContext.RouteData.Values["Page"].ToString();
 
+            // If the string is set check if the current page contains the set attribute.
+            // !!! Subject to change, could return false positives. We should only check the part of the string from the first "/" to the next "/". Should be more accurate !!!
             if(activeWhen != null)
             {
                 if (currentPage.Contains(activeWhen))

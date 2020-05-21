@@ -27,7 +27,14 @@ namespace PortfolioWebApp.TagHelpers
         {
             base.Process(context, output);
 
-            if (ShouldBeActive())
+            string activeWhen = null;
+
+            if (output.Attributes.ContainsName("active-when"))
+            {
+                activeWhen = output.Attributes.Single(x => x.Name.Equals("active-when")).Value.ToString();
+            }
+
+            if (ShouldBeActive(activeWhen))
             {
                 MakeActive(output);
             }
@@ -35,16 +42,28 @@ namespace PortfolioWebApp.TagHelpers
             output.Attributes.RemoveAll("is-active-page");
         }
 
-        private bool ShouldBeActive()
+        private bool ShouldBeActive(string activeWhen = null)
         {
             string currentPage = ViewContext.RouteData.Values["Page"].ToString();
 
-            if (!string.IsNullOrWhiteSpace(Page) && Page.ToLower() != currentPage.ToLower())
+            if(activeWhen != null)
             {
-                return false;
+                if (currentPage.Contains(activeWhen))
+                {
+                    return true;
+                }
             }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(Page) && Page.ToLower() != currentPage.ToLower())
+                {
+                    return false;
+                }
 
-            return true;
+                return true;
+            } 
+
+            return false;
         }
 
         private void MakeActive(TagHelperOutput output)

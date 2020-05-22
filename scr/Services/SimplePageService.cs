@@ -24,13 +24,17 @@ namespace PortfolioWebApp.Services
                 {
                     return (false, "Custom Url already exists.");
                 }
-                
             }
 
             _dbContext.SimplePages.Add(simplePage);
             await _dbContext.SaveChangesAsync();
 
             return (true, "Page successfully added.");
+        }
+
+        public async Task<List<SimplePage>> GetAllPagesAsync()
+        {
+            return await _dbContext.SimplePages.ToListAsync();
         }
     }
 }

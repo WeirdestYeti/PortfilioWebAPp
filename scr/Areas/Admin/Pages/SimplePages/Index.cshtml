@@ -6,3 +6,26 @@
 
 
 <a asp-page="/SimplePages/Add" asp-area="Admin" class="btn btn-primary" role="button" aria-pressed="true">Add New</a>
+
+
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Custom Url</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.SimplePages.Count; i++)
+        {
+            <tr>
+                <th scope="row">@Model.SimplePages[i].Id</th>
+                <td>@Model.SimplePages[i].Title</td>
+                <td>@(Model.SimplePages[i].CustomUrl == null ? "None" : Model.SimplePages[i].CustomUrl)</td>
+                <td><a>Action</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -4,8 +4,10 @@
     ViewData["Title"] = "Simple Pages";
 }
 
+    <div class="pb-3 float-right">
+        <a asp-page="/SimplePages/Add" asp-area="Admin" class="btn btn-primary" role="button" aria-pressed="true">Add New</a>
+    </div>
 
-<a asp-page="/SimplePages/Add" asp-area="Admin" class="btn btn-primary" role="button" aria-pressed="true">Add New</a>
 
 
 <table class="table">
@@ -24,7 +26,19 @@
                 <th scope="row">@Model.SimplePages[i].Id</th>
                 <td>@Model.SimplePages[i].Title</td>
                 <td>@(Model.SimplePages[i].CustomUrl == null ? "None" : Model.SimplePages[i].CustomUrl)</td>
-                <td><a>Action</a></td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Action
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">View</a>
+                            <a class="dropdown-item" asp-page="/SimplePages/Edit" asp-area="Admin" asp-route-id="@Model.SimplePages[i].Id">Edit</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="#">Delete</a>
+                        </div>
+                    </div>
+                </td>
             </tr>
         }
     </tbody>

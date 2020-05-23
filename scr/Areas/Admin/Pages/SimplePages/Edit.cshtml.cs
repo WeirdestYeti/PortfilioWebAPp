@@ -24,6 +24,7 @@ namespace PortfolioWebApp.Areas.Admin.Pages.SimplePages
         public InputModel Input { get; set; }
         [TempData]
         public int EditId { get; set; }
+        public string StatusMessage { get; set; }
 
         public class InputModel
         {
@@ -45,6 +46,7 @@ namespace PortfolioWebApp.Areas.Admin.Pages.SimplePages
 
                 Input = new InputModel();
                 EditId = simplePage.Id;
+                TempData.Keep("EditId");
                 Input.Title = simplePage.Title;
                 Input.CustomUrl = simplePage.CustomUrl;
                 Input.HTML = simplePage.HTML;
@@ -60,6 +62,9 @@ namespace PortfolioWebApp.Areas.Admin.Pages.SimplePages
             {
                 SimplePage simplePage = new SimplePage();
 
+                simplePage.Id = EditId;
+                TempData.Keep("EditId");
+
                 if (!string.IsNullOrEmpty(Input.CustomUrl) || !string.IsNullOrWhiteSpace(Input.CustomUrl))
                 {
                     if (Input.CustomUrl.Contains(" "))
@@ -69,8 +74,7 @@ namespace PortfolioWebApp.Areas.Admin.Pages.SimplePages
                     }
                     simplePage.CustomUrl = Input.CustomUrl;
                 }
-
-                simplePage.Id = EditId;
+                
                 simplePage.Title = Input.Title;
                 simplePage.HTML = Input.HTML;
 
@@ -83,7 +87,8 @@ namespace PortfolioWebApp.Areas.Admin.Pages.SimplePages
                 }
                 else
                 {
-                    return LocalRedirect("/Admin/SimplePages");
+                    StatusMessage = result.Item2;
+                    return Page();
                 }
             }
 

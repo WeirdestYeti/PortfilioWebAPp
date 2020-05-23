@@ -18,6 +18,9 @@ namespace PortfolioWebApp.Areas.Admin.Pages.SimplePages
             _simplePageService = simplePageService;
         }
 
+        [TempData]
+        public string StatusMessage { get; set; }
+
         public List<SimplePage> SimplePages { get; set; }
 
         public async Task<IActionResult> OnGetAsync()

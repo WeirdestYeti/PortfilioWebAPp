@@ -1,0 +1,27 @@
+﻿@page "{id:int?}"
+@model PortfolioWebApp.Areas.Admin.Pages.SimplePages.DeleteModel
+@{
+    ViewData["Title"] = "Delete Simple Page";
+}
+
+
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <partial name="_StatusMessage" for="ErrorMessage" />
+            <div class="card border-danger text-center">
+                <div class="card-header bg-danger text-white font-weight-bold">
+                    Page Id: @Model.SimplePage.Id
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Are you sure you want to delete this page?</h5>
+                    <h6 class="card-title text-danger"><u>This action is irreversible.</u></h6>
+                    <p class="card-text"><b>Title:</b> @Model.SimplePage.Title</p>
+                    <p class="card-text"><b>Custom Url:</b> @(Model.SimplePage.CustomUrl == null ? "None" : Model.SimplePage.CustomUrl)</p>
+                    <form id="deleteSimplePage" method="post">
+                        <button type="submit" class="btn btn-danger">DELETE</button>
+                        <a asp-page="/SimplePages/Index" asp-area="Admin" class="btn btn-info">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

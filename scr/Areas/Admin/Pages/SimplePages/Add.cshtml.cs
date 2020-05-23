@@ -25,7 +25,7 @@ namespace PortfolioWebApp.Areas.Admin.Pages.SimplePages
         public InputModel Input { get; set; }
 
         [TempData]
-        public string ErrorMessage { get; set; }
+        public string StatusMessage { get; set; }
 
         public void OnGet()
         {
@@ -52,7 +52,7 @@ namespace PortfolioWebApp.Areas.Admin.Pages.SimplePages
 
                 if (!string.IsNullOrEmpty(Input.CustomUrl) || !string.IsNullOrWhiteSpace(Input.CustomUrl))
                 {
-                    if (Input.CustomUrl.Contains(""))
+                    if (Input.CustomUrl.Contains(" "))
                     {
                         ModelState.AddModelError(string.Empty, "Custom Url can't contain spaces.");
                         return Page();
@@ -72,6 +72,7 @@ namespace PortfolioWebApp.Areas.Admin.Pages.SimplePages
                 }
                 else
                 {
+                    StatusMessage = result.Item2;
                     return LocalRedirect("/Admin/SimplePages");
                 }
             }

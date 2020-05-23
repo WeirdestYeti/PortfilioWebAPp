@@ -2,13 +2,18 @@
 @model PortfolioWebApp.Areas.Admin.Pages.SimplePages.IndexModel
 @{
     ViewData["Title"] = "Simple Pages";
-}
+}      
+    <div class="row">
+        <div class="col">
+            <partial name="_StatusMessage" for="StatusMessage" />
+            <div class="pb-3 float-right">
+                <a asp-page="/SimplePages/Add" asp-area="Admin" class="btn btn-primary" role="button" aria-pressed="true">Add New</a>
+            </div>
+        </div>
 
-    <div class="pb-3 float-right">
-        <a asp-page="/SimplePages/Add" asp-area="Admin" class="btn btn-primary" role="button" aria-pressed="true">Add New</a>
+            
     </div>
-
-
+    
 
 <table class="table">
     <thead class="thead-light">
@@ -35,7 +40,7 @@
                             <a class="dropdown-item" href="#">View</a>
                             <a class="dropdown-item" asp-page="/SimplePages/Edit" asp-area="Admin" asp-route-id="@Model.SimplePages[i].Id">Edit</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-danger" href="#">Delete</a>
+                            <a class="dropdown-item text-danger" asp-page="/SimplePages/Delete" asp-area="Admin" asp-route-id="@Model.SimplePages[i].Id">Delete</a>
                         </div>
                     </div>
                 </td>

@@ -4,6 +4,7 @@ using PortfolioWebApp.Models.SimplePages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace PortfolioWebApp.Services
@@ -63,8 +64,9 @@ namespace PortfolioWebApp.Services
         /// <returns>Tupple of bool and string.</returns>
         public async Task<(bool, string)> UpdatePageAsync(SimplePage simplePage)
         {
+            if (simplePage == null) return (false, "Null object reference provided.");
             SimplePage simplePageDb = await _dbContext.SimplePages.SingleOrDefaultAsync(x => x.Id == simplePage.Id);
-            if(simplePage != null)
+            if(simplePageDb != null)
             {
                 if (!string.IsNullOrEmpty(simplePage.CustomUrl))
                 {
@@ -84,6 +86,19 @@ namespace PortfolioWebApp.Services
                 return (true, "Page updated successfully.");
             }
             return (false, "Page with the Id: " + simplePage.Id + " not found.");
+        }
+
+        public async Task<(bool, string)> DeletePageByIdAsync(int id)
+        {
+            SimplePage simplePage = await _dbContext.SimplePages.SingleOrDefaultAsync(x => x.Id == id);
+            if(simplePage != null)
+            {
+                _dbContext.SimplePages.Remove(simplePage);
+                await _dbContext.SaveChangesAsync();
+
+                return (true, "Page deleted successfully");
+            }
+            return (false, "Page with the Id: " + id + " not found.");
         }
     }
 }

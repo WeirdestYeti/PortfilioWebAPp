@@ -68,6 +68,8 @@ namespace PortfolioWebApp
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseStatusCodePagesWithReExecute("/errors/{0}");
+
             app.UseRouting();
 
             app.UseAuthentication();

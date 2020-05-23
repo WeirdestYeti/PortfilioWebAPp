@@ -53,6 +53,7 @@ namespace PortfolioWebApp.Areas.Admin.Pages.SimplePages
                 }
                 else
                 {
+                    TempData.Keep("DeleteId");
                     ErrorMessage = result.Item2;
                     return Page();
                 }

@@ -37,7 +37,7 @@
                             Action
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">View</a>
+                            <a class="dropdown-item" target="_blank" rel="noopener noreferrer" href="/SPage/@(Model.SimplePages[i].CustomUrl == null ? Model.SimplePages[i].Id + "-" + Model.SimplePages[i].Title : Model.SimplePages[i].CustomUrl)">View</a>
                             <a class="dropdown-item" asp-page="/SimplePages/Edit" asp-area="Admin" asp-route-id="@Model.SimplePages[i].Id">Edit</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-danger" asp-page="/SimplePages/Delete" asp-area="Admin" asp-route-id="@Model.SimplePages[i].Id">Delete</a>

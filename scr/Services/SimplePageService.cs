@@ -88,6 +88,11 @@ namespace PortfolioWebApp.Services
             return (false, "Page with the Id: " + simplePage.Id + " not found.");
         }
 
+        /// <summary>
+        /// Deletes page by id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Tupple of bool and string.</returns>
         public async Task<(bool, string)> DeletePageByIdAsync(int id)
         {
             SimplePage simplePage = await _dbContext.SimplePages.SingleOrDefaultAsync(x => x.Id == id);
@@ -99,6 +104,45 @@ namespace PortfolioWebApp.Services
                 return (true, "Page deleted successfully");
             }
             return (false, "Page with the Id: " + id + " not found.");
+        }
+
+        /// <summary>
+        /// Get page by custom url.
+        /// </summary>
+        /// <param name="customUrl"></param>
+        /// <returns></returns>
+        public async Task<SimplePage> GetPageByCustomUrl(string customUrl)
+        {
+            if(customUrl != null)
+            {
+                return await _dbContext.SimplePages.SingleOrDefaultAsync(x => x.CustomUrl.Equals(customUrl));
+            }
+            return null;
+        }
+
+
+        public async Task<SimplePage> GetPageByUrl(string url)
+        {
+            if(url != null)
+            {
+                //SimplePage simplePage = await _dbContext.SimplePages.SingleOrDefaultAsync(x => url.Equals(x.Id + "-" + x.Title));
+
+                SimplePage simplePage = null;
+
+                List<SimplePage> simplePages = await _dbContext.SimplePages.ToListAsync();
+
+                for (int i = 0; i < simplePages.Count; i++)
+                {
+                    string test = simplePages[i].Id + "-" + simplePages[i].Title;
+                    if (url.Equals(test))
+                    {
+                        simplePage = simplePages[i];
+                    }
+                }
+
+                return simplePage;
+            }
+            return null;
         }
     }
 }

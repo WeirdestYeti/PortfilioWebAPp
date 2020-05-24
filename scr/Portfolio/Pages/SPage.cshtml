@@ -1,0 +1,7 @@
+﻿@page "{url}"
+@model PortfolioWebApp.Portfolio.Pages.SPageModel
+@{
+    ViewData["Title"] = Model.SimplePage.Title;
+}
+
+@Html.Raw(Model.SimplePage.HTML)

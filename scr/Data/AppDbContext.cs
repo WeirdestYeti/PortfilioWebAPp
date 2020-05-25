@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PortfolioWebApp.Models.Accounts;
+using PortfolioWebApp.Models.Navigation;
 using PortfolioWebApp.Models.SimplePages;
 using System;
 using System.Collections.Generic;
@@ -18,5 +19,6 @@ namespace PortfolioWebApp.Data
 
         public DbSet<ApplicationUser> Accounts { get; set; }
         public DbSet<SimplePage> SimplePages { get; set; }
+        public DbSet<PortfolioNavigation> PortfolioNavigations { get; set; }
     }
 }

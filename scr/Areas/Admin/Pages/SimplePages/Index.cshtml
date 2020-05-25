@@ -15,36 +15,38 @@
     </div>
     
 
-<table class="table">
-    <thead class="thead-light">
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Title</th>
-            <th scope="col">Custom Url</th>
-            <th scope="col">Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @for (int i = 0; i < Model.SimplePages.Count; i++)
-        {
-            <tr>
-                <th scope="row">@Model.SimplePages[i].Id</th>
-                <td>@Model.SimplePages[i].Title</td>
-                <td>@(Model.SimplePages[i].CustomUrl == null ? "None" : Model.SimplePages[i].CustomUrl)</td>
-                <td>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Action
-                        </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" target="_blank" rel="noopener noreferrer" href="/SPage/@(Model.SimplePages[i].CustomUrl == null ? Model.SimplePages[i].Id + "-" + Model.SimplePages[i].Title : Model.SimplePages[i].CustomUrl)">View</a>
-                            <a class="dropdown-item" asp-page="/SimplePages/Edit" asp-area="Admin" asp-route-id="@Model.SimplePages[i].Id">Edit</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-danger" asp-page="/SimplePages/Delete" asp-area="Admin" asp-route-id="@Model.SimplePages[i].Id">Delete</a>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+    <div class="col-md-12">
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Custom Url</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.SimplePages.Count; i++)
+                {
+                    <tr>
+                        <th scope="row">@Model.SimplePages[i].Id</th>
+                        <td>@Model.SimplePages[i].Title</td>
+                        <td>@(Model.SimplePages[i].CustomUrl == null ? "None" : Model.SimplePages[i].CustomUrl)</td>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Action
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" target="_blank" rel="noopener noreferrer" href="/SPage/@(Model.SimplePages[i].CustomUrl == null ? Model.SimplePages[i].Id + "-" + Model.SimplePages[i].Title : Model.SimplePages[i].CustomUrl)">View</a>
+                                    <a class="dropdown-item" asp-page="/SimplePages/Edit" asp-area="Admin" asp-route-id="@Model.SimplePages[i].Id">Edit</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item text-danger" asp-page="/SimplePages/Delete" asp-area="Admin" asp-route-id="@Model.SimplePages[i].Id">Delete</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>

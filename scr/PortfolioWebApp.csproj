@@ -9,6 +9,8 @@
     <Compile Remove="Migrations\20200516152101_IdentityNetCore.Designer.cs" />
     <Compile Remove="Migrations\20200521140129_SimplePages.cs" />
     <Compile Remove="Migrations\20200521140129_SimplePages.Designer.cs" />
+    <Compile Remove="Migrations\20200525120711_PortfolioNavigation.cs" />
+    <Compile Remove="Migrations\20200525120711_PortfolioNavigation.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

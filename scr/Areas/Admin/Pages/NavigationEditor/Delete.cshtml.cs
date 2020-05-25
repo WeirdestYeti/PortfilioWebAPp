@@ -5,56 +5,56 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using PortfolioWebApp.Models.SimplePages;
+using PortfolioWebApp.Models.Navigation;
 using PortfolioWebApp.Services;
 
-namespace PortfolioWebApp.Areas.Admin.Pages.SimplePages
+namespace PortfolioWebApp.Areas.Admin.Pages.NavigationEditor
 {
     public class DeleteModel : PageModel
     {
-        private readonly SimplePageService _simplePageService;
-
-        public DeleteModel(SimplePageService simplePageService)
+        private readonly PortfolioNavigationService _navigationService;
+        public DeleteModel(PortfolioNavigationService portfolioNavigationService)
         {
-            _simplePageService = simplePageService;
+            _navigationService = portfolioNavigationService;
         }
 
         [TempData]
         public string StatusMessage { get; set; }
+
+        public PortfolioNavigation Navigation { get; set; }
 
         [BindProperty]
         [Required]
         [HiddenInput]
         public int DeleteId { get; set; }
 
-        public SimplePage SimplePage { get; set; }
-
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if(id != null)
             {
-                SimplePage = await _simplePageService.GetPageByIdAsync((int)id);
-                if(SimplePage != null)
+                Navigation = await _navigationService.GetNavigationByIdAsync((int)id);
+                if(Navigation != null)
                 {
                     DeleteId = (int)id;
                     return Page();
                 }
-                return LocalRedirect("/Admin/SimplePages");
+                return LocalRedirect("/Admin/NavigationEditor");
             }
-            return LocalRedirect("/Admin/SimplePages");
+            return LocalRedirect("/Admin/NavigationEditor");
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
             if (ModelState.IsValid)
             {
-                if (DeleteId != 0)
+                if(DeleteId != 0)
                 {
-                    (bool, string) result = await _simplePageService.DeletePageByIdAsync(DeleteId);
+                    (bool, string) result = await _navigationService.DeleteNavigationByIdAsync(DeleteId);
+
                     if (result.Item1)
                     {
                         StatusMessage = result.Item2;
-                        return LocalRedirect("/Admin/SimplePages");
+                        return LocalRedirect("/Admin/NavigationEditor");
                     }
                     else
                     {
@@ -63,7 +63,7 @@ namespace PortfolioWebApp.Areas.Admin.Pages.SimplePages
                     }
                 }
             }
-            return LocalRedirect("/Admin/SimplePages");
+            return LocalRedirect("/Admin/NavigationEditor");
         }
     }
 }

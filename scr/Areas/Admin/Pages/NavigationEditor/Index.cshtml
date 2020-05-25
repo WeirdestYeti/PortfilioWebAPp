@@ -1,0 +1,76 @@
+﻿@page
+@model PortfolioWebApp.Areas.Admin.Pages.NavigationEditor.IndexModel
+@{
+    ViewData["Title"] = "Navigation Editor";
+}
+
+
+<div class="row">
+    <div class="col">
+        <partial name="_StatusMessage" for="StatusMessage" />
+        <div class="pb-3 float-right">
+            <a asp-page="/NavigationEditor/Add" asp-area="Admin" class="btn btn-primary" role="button" aria-pressed="true">Add New</a>
+        </div>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Order</th>
+            <th scope="col">Name</th>
+            <th scope="col">Url</th>
+            <th scope="col">Change Order</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">0</th>
+            <td>Home</td>
+            <td>/</td>
+            <td>
+                <div class="btn-group btn-group-sm" role="group" aria-label="Change Order">
+                    <button type="button" disabled class="btn btn-dark">Move Up</button>
+                    <button type="button" disabled class="btn btn-secondary">Move Down</button>
+                </div>
+            </td>
+            <td>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled>
+                        Action
+                    </button>
+                </div>
+            </td>
+        </tr>
+        @for (int i = 0; i < Model.Navigations.Count; i++)
+        {
+            <tr>
+                <th scope="row">@Model.Navigations[i].Order</th>
+                <td>@Model.Navigations[i].Name</td>
+                <td>@Model.Navigations[i].Url</td>
+                <td>
+                    <form method="post">
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Change Order">
+                            <button asp-page-handler="MoveNaviUp" asp-route-id="@Model.Navigations[i].Id" type="submit" class="btn btn-dark">Move Up</button>
+                            <button asp-page-handler="MoveNaviDown" asp-route-id="@Model.Navigations[i].Id" type="submit" class="btn btn-secondary">Move Down</button>
+                        </div>
+                    </form>
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Action
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" target="_blank" rel="noopener noreferrer" href="@Model.Navigations[i].Url">View Page</a>
+                            <a class="dropdown-item" asp-page="/NavigationEditor/Edit" asp-area="Admin" asp-route-id="@Model.Navigations[i].Id">Edit</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" asp-page="/NavigationEditor/Delete" asp-area="Admin" asp-route-id="@Model.Navigations[i].Id">Delete</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

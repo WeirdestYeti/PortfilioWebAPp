@@ -1,0 +1,28 @@
+﻿@page "{id:int?}"
+@model PortfolioWebApp.Areas.Admin.Pages.NavigationEditor.DeleteModel
+@{
+    ViewData["Title"] = "Delete Navigation Item";
+}
+
+
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <partial name="_StatusMessage" for="StatusMessage" />
+        <div class="card text-center">
+            <div class="card-header bg-danger text-white font-weight-bold">
+                Navigation Id: @Model.Navigation.Id
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Are you sure you want to delete this navigation item?</h5>
+                <h6 class="card-title text-danger"><u>This action is irreversible.</u></h6>
+                <p class="card-text"><b>Name:</b> @Model.Navigation.Name</p>
+                <p class="card-text"><b>Url:</b> @Model.Navigation.Url</p>
+                <form id="deleteSimplePage" method="post">
+                    <input asp-for="DeleteId" />
+                    <button type="submit" class="btn btn-danger">DELETE</button>
+                    <a asp-page="/SimplePages/Index" asp-area="Admin" class="btn btn-info">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

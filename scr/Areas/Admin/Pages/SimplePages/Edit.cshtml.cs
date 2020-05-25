@@ -22,12 +22,13 @@ namespace PortfolioWebApp.Areas.Admin.Pages.SimplePages
 
         [BindProperty]
         public InputModel Input { get; set; }
-        [TempData]
-        public int EditId { get; set; }
         public string StatusMessage { get; set; }
 
         public class InputModel
         {
+            [Required]
+            [HiddenInput]
+            public int Id { get; set; }
             [Required]
             [MaxLength(60)]
             public string Title { get; set; }
@@ -45,8 +46,7 @@ namespace PortfolioWebApp.Areas.Admin.Pages.SimplePages
                 if (simplePage == null) return LocalRedirect("/Admin/SimplePages");
 
                 Input = new InputModel();
-                EditId = simplePage.Id;
-                TempData.Keep("EditId");
+                Input.Id = simplePage.Id;
                 Input.Title = simplePage.Title;
                 Input.CustomUrl = simplePage.CustomUrl;
                 Input.HTML = simplePage.HTML;
@@ -62,9 +62,6 @@ namespace PortfolioWebApp.Areas.Admin.Pages.SimplePages
             {
                 SimplePage simplePage = new SimplePage();
 
-                simplePage.Id = EditId;
-                TempData.Keep("EditId");
-
                 if (!string.IsNullOrEmpty(Input.CustomUrl) || !string.IsNullOrWhiteSpace(Input.CustomUrl))
                 {
                     if (Input.CustomUrl.Contains(" "))
@@ -74,7 +71,8 @@ namespace PortfolioWebApp.Areas.Admin.Pages.SimplePages
                     }
                     simplePage.CustomUrl = Input.CustomUrl;
                 }
-                
+
+                simplePage.Id = Input.Id;
                 simplePage.Title = Input.Title;
                 simplePage.HTML = Input.HTML;
 

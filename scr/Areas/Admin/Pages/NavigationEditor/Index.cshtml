@@ -52,8 +52,8 @@
                 <td>
                     <form method="post">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Change Order">
-                            <button asp-page-handler="MoveNaviUp" asp-route-id="@Model.Navigations[i].Id" type="submit" class="btn btn-dark">Move Up</button>
-                            <button asp-page-handler="MoveNaviDown" asp-route-id="@Model.Navigations[i].Id" type="submit" class="btn btn-secondary">Move Down</button>
+                            <button asp-page-handler="MoveNaviUp" asp-route-id="@(Model.Navigations[i].Id)" type="submit" class="btn btn-dark" disabled="@(Model.Navigations[i].Order == 1 ? "disabled" : null)">Move Up</button>
+                            <button  asp-page-handler="MoveNaviDown" asp-route-id="@(Model.Navigations[i].Id)" type="submit" class="btn btn-secondary" disabled="@(Model.Navigations[i].Order == Model.Navigations.Count ? "disabled" : null)">Move Down</button>
                         </div>
                     </form>
                 </td>

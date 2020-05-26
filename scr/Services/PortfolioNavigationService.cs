@@ -85,6 +85,11 @@ namespace PortfolioWebApp.Services
             return await _dbContext.PortfolioNavigations.SingleOrDefaultAsync(x => x.Id == id);
         }
 
+        /// <summary>
+        /// Deletes Navigation item by id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<(bool, string)> DeleteNavigationByIdAsync(int id)
         {
             if(id != 0)
@@ -109,5 +114,60 @@ namespace PortfolioWebApp.Services
             return (false, "Item not found.");
         }
 
+        public async Task<(bool, string)> MoveNavigationAsync(int id, MoveNavi direction)
+        {
+            if(id != 0)
+            {
+                PortfolioNavigation navigation = await _dbContext.PortfolioNavigations.SingleOrDefaultAsync(x => x.Id == id);
+                if(navigation != null)
+                {
+                    if(direction == MoveNavi.Down)
+                    {
+                        if (navigation.Order == _dbContext.PortfolioNavigations.Count()) return (false, "Error: Navigation is already at the end.");
+
+                        PortfolioNavigation nextNavigation = await _dbContext.PortfolioNavigations.SingleOrDefaultAsync(x => x.Order == navigation.Order + 1);
+                        if(nextNavigation != null)
+                        {
+                            nextNavigation.Order = nextNavigation.Order - 1;
+                            _dbContext.PortfolioNavigations.Update(nextNavigation);
+
+                            navigation.Order = navigation.Order + 1;
+                            _dbContext.PortfolioNavigations.Update(navigation);
+
+                            await _dbContext.SaveChangesAsync();
+                            return (true, "Navigation moved down.");
+                        }
+                        return (false, "Error: Next navigation not found.");
+                    }
+                    else if (direction == MoveNavi.Up)
+                    {
+                        if (navigation.Order == 1) return (false, "Error: Navigation is already at the top.");
+
+                        PortfolioNavigation previousNavigation = await _dbContext.PortfolioNavigations.SingleOrDefaultAsync(x => x.Order == navigation.Order - 1);
+                        if(previousNavigation != null)
+                        {
+                            previousNavigation.Order = previousNavigation.Order + 1;
+                            _dbContext.PortfolioNavigations.Update(previousNavigation);
+
+                            navigation.Order = navigation.Order - 1;
+                            _dbContext.PortfolioNavigations.Update(navigation);
+
+                            await _dbContext.SaveChangesAsync();
+                            return (true, "Navigation moved up.");
+                        }
+                        return (false, "Error: Previous navigation not found");
+                    }
+                }
+            }
+            return (false, "Error: Item not found");
+        }
+
+        
+
+    }
+    public enum MoveNavi
+    {
+        Up,
+        Down
     }
 }

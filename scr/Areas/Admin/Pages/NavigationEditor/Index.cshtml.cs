@@ -31,11 +31,23 @@ namespace PortfolioWebApp.Areas.Admin.Pages.NavigationEditor
 
         public async Task<IActionResult> OnPostMoveNaviDownAsync(int id)
         {
+            if(id != 0)
+            {
+                (bool, string) result = await _navigationService.MoveNavigationAsync(id, MoveNavi.Down);
+
+                StatusMessage = result.Item2;
+            }
             return RedirectToPage();
         }
 
         public async Task<IActionResult> OnPostMoveNaviUpAsync(int id)
         {
+            if(id != 0)
+            {
+                (bool, string) result = await _navigationService.MoveNavigationAsync(id, MoveNavi.Up);
+
+                StatusMessage = result.Item2;
+            }
             return RedirectToPage();
         }
     }

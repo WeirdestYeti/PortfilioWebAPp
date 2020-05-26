@@ -79,16 +79,12 @@ namespace PortfolioWebApp.Areas.Admin.Pages.NavigationEditor
                 if (result.Item1)
                 {
                     StatusMessage = result.Item2;
-                    return Page();
                 }
                 else
                 {
                     StatusMessage = "Error:" + result.Item2;
-                    return Page();
                 }
-
             }
-
             return Page();
         }
     }

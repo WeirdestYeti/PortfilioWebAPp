@@ -1,0 +1,17 @@
+﻿@using PortfolioWebApp.Services
+@using PortfolioWebApp.Models.Navigation
+
+@inject PortfolioNavigationService navigationService 
+
+@{ 
+    List<PortfolioNavigation> navigations = await navigationService.GetNavigationsAsync();
+    string route = ViewContext.HttpContext.Request.Path.Value;
+}
+
+    <nav class="nav nav-masthead justify-content-center">
+        <a class="nav-link @(route.Equals("/Index") || route.Equals("/") ? "active" : "")" href="/">Home</a>
+        @for (int i = 0; i < navigations.Count; i++)
+        {
+            <a class="nav-link @(route.Contains(navigations[i].Url) ? "active" : "")" href="@(navigations[i].Url)">@(navigations[i].Name)</a>
+        }
+    </nav>

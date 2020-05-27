@@ -86,6 +86,16 @@ namespace PortfolioWebApp.Services
         }
 
         /// <summary>
+        /// Gets Navigaiton by order.
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        public async Task<PortfolioNavigation> GetNavigationByOrderAsync(int order)
+        {
+            return await _dbContext.PortfolioNavigations.SingleOrDefaultAsync(x => x.Order == order);
+        }
+
+        /// <summary>
         /// Deletes Navigation item by id.
         /// </summary>
         /// <param name="id"></param>
@@ -114,6 +124,12 @@ namespace PortfolioWebApp.Services
             return (false, "Item not found.");
         }
 
+        /// <summary>
+        /// Moves navigations towards provided direction.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="direction"></param>
+        /// <returns>Tuple of bool and string.</returns>
         public async Task<(bool, string)> MoveNavigationAsync(int id, MoveNavi direction)
         {
             if(id != 0)

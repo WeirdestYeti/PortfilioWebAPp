@@ -1,11 +1,19 @@
 ﻿@page
 @model PortfolioWebApp.Areas.Portfolio.Pages.IndexModel
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Home";
 }
 
-<h1>Index</h1>
+@if (Model.SimplePage != null)
+{
+    @Html.Raw(Model.SimplePage.HTML)
+}
+else
+{
+    <h1>Home</h1>
 
 
-Portfolio index
+    @:Welcome to my portfolio!
+}
+
 

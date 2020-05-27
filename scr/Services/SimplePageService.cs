@@ -29,7 +29,14 @@ namespace PortfolioWebApp.Services
                 if (!(await _dbContext.SimplePages.SingleOrDefaultAsync(x => x.CustomUrl.Equals(simplePage.CustomUrl)) == null))
                 {
                     return (false, "Custom Url already exists.");
-                }
+                }         
+            }
+
+            SimplePage homePage = await _dbContext.SimplePages.SingleOrDefaultAsync(x => x.Title.Equals(simplePage.Title));
+
+            if(homePage != null)
+            {
+                return (false, "There can only be one page with a title Home.");
             }
 
             _dbContext.SimplePages.Add(simplePage);
@@ -58,6 +65,16 @@ namespace PortfolioWebApp.Services
         }
 
         /// <summary>
+        /// Gets page by Title.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        public async Task<SimplePage> GetPageByTitleAsync(string title)
+        {
+            return await _dbContext.SimplePages.SingleOrDefaultAsync(x => x.Title.Equals(title));
+        }
+
+        /// <summary>
         /// Updates page.
         /// </summary>
         /// <param name="simplePage"></param>
@@ -74,6 +91,13 @@ namespace PortfolioWebApp.Services
                     {
                         return (false, "Custom Url already exists.");
                     }
+                }
+
+                SimplePage homePage = await _dbContext.SimplePages.SingleOrDefaultAsync(x => x.Title.Equals(simplePage.Title));
+
+                if (homePage != null)
+                {
+                    return (false, "There can only be one page with a title Home.");
                 }
 
                 simplePageDb.Title = simplePage.Title;

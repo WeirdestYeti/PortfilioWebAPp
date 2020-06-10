@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
@@ -18,6 +19,16 @@ namespace PortfolioWebApp
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    var env = hostingContext.HostingEnvironment;
+
+                    config.SetBasePath(Directory.GetCurrentDirectory());
+                    config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                      .AddJsonFile($"appsettings.{env.EnvironmentName}.json",
+                                     optional: true, reloadOnChange: true);
+                    config.AddEnvironmentVariables();
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

@@ -25,37 +25,27 @@
     <link rel="stylesheet" href="~/css/dashboard.css" />
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" asp-page="/Index" asp-area="Admin">PortfolioWebApp</a>
-        <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <ul class="navbar-nav ml-auto">
-        </ul>
-        <partial name="_LoginPartial" />
-    </nav>
-
     <div class="container-fluid">
         <div class="row">
             <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
                 <div class="sidebar-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" is-active-page asp-page="/Index" asp-area="Admin">
+                            <a class="nav-link disabled">
                                 <span data-feather="home"></span>
-                                Home <span class="sr-only">(current)</span>
+                                Step 1: Setup Database<span class="sr-only">(current)</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" is-active-page active-when="SimplePages" asp-page="/SimplePages/Index" asp-area="Admin">
+                            <a class="nav-link disabled">
                                 <span data-feather="file"></span>
-                                Simple Pages
+                                Setup 2: Setup Account
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" is-active-page active-when="NavigationEditor" asp-page="/NavigationEditor/Index" asp-area="Admin">
+                            <a class="nav-link disabled">
                                 <span data-feather="menu"></span>
-                                Navigation Editor
+                                Done
                             </a>
                         </li>
                     </ul>

@@ -11,6 +11,12 @@
     <Compile Remove="Migrations\20200521140129_SimplePages.Designer.cs" />
     <Compile Remove="Migrations\20200525120711_PortfolioNavigation.cs" />
     <Compile Remove="Migrations\20200525120711_PortfolioNavigation.Designer.cs" />
+    <Compile Remove="Migrations\20200531094638_CustomAppSettings.cs" />
+    <Compile Remove="Migrations\20200531094638_CustomAppSettings.Designer.cs" />
+    <Compile Remove="Migrations\20200531100752_CustomAppSettings.cs" />
+    <Compile Remove="Migrations\20200531100752_CustomAppSettings.Designer.cs" />
+    <Compile Remove="Migrations\20200531113400_CustomAppSettings.cs" />
+    <Compile Remove="Migrations\20200531113400_CustomAppSettings.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

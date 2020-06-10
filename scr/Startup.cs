@@ -11,22 +11,36 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PortfolioWebApp.Data;
 using PortfolioWebApp.Models.Accounts;
+using PortfolioWebApp.Models.Settings.AppSettings;
 using PortfolioWebApp.Services;
+using PortfolioWebApp.Utils;
 
 namespace PortfolioWebApp
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            _environment = env;
         }
 
+        private readonly IWebHostEnvironment _environment;
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            if (_environment.IsDevelopment())
+            {
+                services.ConfigureWritable<AppSettings>(Configuration.GetSection("AppSettings"), "appsettings.Development.json");
+            }
+            else
+            {
+                services.ConfigureWritable<AppSettings>(Configuration.GetSection("AppSettings"), "appsettings.json");
+            }
+
+
             services.AddDbContext<AppDbContext>(options =>
             options.UseMySql(
                 Configuration.GetConnectionString("DefaultConnection")));
@@ -47,8 +61,12 @@ namespace PortfolioWebApp
                 options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
             });
 
+
+            
+
             services.AddTransient<SimplePageService>();
             services.AddTransient<PortfolioNavigationService>();
+            services.AddTransient<SetupService>();
 
         }
 

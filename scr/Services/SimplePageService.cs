@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PortfolioWebApp.Data;
 using PortfolioWebApp.Models.SimplePages;
 using System;

@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿
+@using PortfolioWebApp.Models.Settings.AppSettings;
+@inject Microsoft.Extensions.Options.IOptionsSnapshot<AppSettingsOptions> options;
+
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -31,21 +37,27 @@
                 <div class="sidebar-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link disabled">
+                            <a class="nav-link disabled  @(options.Value.CurrentSetupStep == SetupStep.Database ? "text-primary" : "")">
                                 <span data-feather="home"></span>
-                                Step 1: Setup Database<span class="sr-only">(current)</span>
+                                Setup 1: Setup Database<span class="sr-only">(current)</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link disabled">
+                            <a class="nav-link disabled  @(options.Value.CurrentSetupStep == SetupStep.Mailer ? "text-primary" : "")">
+                                <span data-feather="home"></span>
+                                Setup 2: Setup Mailer (optional)<span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled @(options.Value.CurrentSetupStep == SetupStep.Account ? "text-primary" : "")">
                                 <span data-feather="file"></span>
-                                Setup 2: Setup Account
+                                Setup 3: Setup Account
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link disabled">
+                            <a class="nav-link disabled @(options.Value.CurrentSetupStep == SetupStep.Other ? "text-primary" : "") ">
                                 <span data-feather="menu"></span>
-                                Done
+                                Setup 4: Other
                             </a>
                         </li>
                     </ul>

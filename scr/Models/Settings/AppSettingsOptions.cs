@@ -5,15 +5,18 @@ using System.Threading.Tasks;
 
 namespace PortfolioWebApp.Models.Settings.AppSettings
 {
-    public class AppSettings
+    public class AppSettingsOptions
     {
+        public const string AppSettings = "AppSettings";
         public string PortfolioTitle { get; set; }
-        public SetupSteps CurrentSetupStep { get; set; }
+        public SetupStep CurrentSetupStep { get; set; }
+        public string ConnectionString { get; set; }
     }
 
-    public enum SetupSteps
+    public enum SetupStep
     {
         Database,
+        Mailer,
         Account,
         Other,
         Finished

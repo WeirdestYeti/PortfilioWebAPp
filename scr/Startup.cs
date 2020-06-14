@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PortfolioWebApp.Data;
 using PortfolioWebApp.Models.Accounts;
+using PortfolioWebApp.Models.Settings;
 using PortfolioWebApp.Models.Settings.AppSettings;
 using PortfolioWebApp.Services;
 using PortfolioWebApp.Utils;
@@ -33,18 +35,21 @@ namespace PortfolioWebApp
         {
             if (_environment.IsDevelopment())
             {
-                services.ConfigureWritable<AppSettings>(Configuration.GetSection("AppSettings"), "appsettings.Development.json");
+                services.ConfigureWritable<AppSettingsOptions>(Configuration.GetSection(AppSettingsOptions.AppSettings), "appsettings.Development.json");
+                services.ConfigureWritable<MailerSettingsOptions>(Configuration.GetSection(MailerSettingsOptions.MailerSettings), "appsettings.Development.json");
             }
             else
             {
-                services.ConfigureWritable<AppSettings>(Configuration.GetSection("AppSettings"), "appsettings.json");
+                services.ConfigureWritable<AppSettingsOptions>(Configuration.GetSection(AppSettingsOptions.AppSettings), "appsettings.json");
+                services.ConfigureWritable<MailerSettingsOptions>(Configuration.GetSection(MailerSettingsOptions.MailerSettings), "appsettings.json");
             }
+
+            AppSettingsOptions appSettingsOptions = Configuration.GetSection(AppSettingsOptions.AppSettings).Get<AppSettingsOptions>();
 
 
             services.AddDbContext<AppDbContext>(options =>
-            options.UseMySql(
-                Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                options.UseMySql(appSettingsOptions.ConnectionString));
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<AppDbContext>();
             services.AddRazorPages()
                 .WithRazorPagesRoot("/Portfolio/Pages")
@@ -61,8 +66,7 @@ namespace PortfolioWebApp
                 options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
             });
 
-
-            
+            services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddTransient<SimplePageService>();
             services.AddTransient<PortfolioNavigationService>();

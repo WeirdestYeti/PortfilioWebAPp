@@ -9,16 +9,7 @@ namespace PortfolioWebApp.Models.Settings.AppSettings
     {
         public const string AppSettings = "AppSettings";
         public string PortfolioTitle { get; set; }
-        public SetupStep CurrentSetupStep { get; set; }
+        public bool SetupFinished { get; set; }
         public string ConnectionString { get; set; }
-    }
-
-    public enum SetupStep
-    {
-        Database,
-        Mailer,
-        Account,
-        Other,
-        Finished
     }
 }

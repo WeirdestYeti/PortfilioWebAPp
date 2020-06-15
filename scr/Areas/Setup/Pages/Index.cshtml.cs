@@ -14,13 +14,27 @@ using PortfolioWebApp.Utils.WritableOptions;
 
 namespace PortfolioWebApp.Areas.Setup.Pages
 {
+
+    
+
     public class IndexModel : PageModel
     {
+        public enum SetupStep
+        {
+            Database,
+            Mailer,
+            Account,
+            Other,
+            Finished
+        }
+
         private IWritableOptions<AppSettingsOptions> _appSettings;
 
         private readonly SetupService _setupService;
 
-        public SetupStep SetupStep { get; set; }
+        public bool IsSetupFinished { get; set; }
+
+        public SetupStep CurrentSetupStep { get; set; }
 
         public IndexModel(IWritableOptions<AppSettingsOptions> appSettings, SetupService setupService)
         {
@@ -91,19 +105,25 @@ namespace PortfolioWebApp.Areas.Setup.Pages
 
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
-            SetupStep = _appSettings.Value.CurrentSetupStep;
+            IsSetupFinished = _appSettings.Value.SetupFinished;
 
+            if (IsSetupFinished)
+            {
+                return LocalRedirect("/");
+            }
 
+            CurrentSetupStep = SetupStep.Database;
 
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
             // For step-by-step validation to work we need to remove validaton from ModelState for all next steps.
 
-            if (SetupStep == SetupStep.Database)
+            if (CurrentSetupStep == SetupStep.Database)
             {
                 // Removing next step validation.
                 ModelState.Remove("Input.Email");
@@ -120,33 +140,47 @@ namespace PortfolioWebApp.Areas.Setup.Pages
                     }
                     else
                     {
-                        _appSettings.Update(opt => {
-                            opt.CurrentSetupStep = SetupStep.Mailer;
-                        });
 
-                        SetupStep = SetupStep.Mailer;
+                        CurrentSetupStep = SetupStep.Mailer;
 
                         return Page();
                     }
                 }
             }
-            else if (SetupStep == SetupStep.Mailer)
-            {
-
-            }
-            else if (SetupStep == SetupStep.Account)
+            else if (CurrentSetupStep == SetupStep.Mailer)
             {
                 // Removing next step validation.
                 ModelState.Remove("Input.PortfolioTitle");
 
+
                 if (ModelState.IsValid)
                 {
 
-                }
+                    CurrentSetupStep = SetupStep.Other;
 
-            }
-            else if (SetupStep == SetupStep.Other)
+                    return Page();
+                }
+            }            
+            else if (CurrentSetupStep == SetupStep.Other)
             {
+                if (ModelState.IsValid)
+                {
+
+                    CurrentSetupStep = SetupStep.Account;
+
+                    return Page();           
+                }
+            }
+            else if (CurrentSetupStep == SetupStep.Account)
+            {
+                if (ModelState.IsValid)
+                {
+
+
+                    // finish and save everything here
+
+                    return Page();
+                }
 
             }
             else

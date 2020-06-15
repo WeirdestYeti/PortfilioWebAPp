@@ -1,7 +1,8 @@
 ﻿@page
 @model PortfolioWebApp.Areas.Setup.Pages.IndexModel
 
-@using PortfolioWebApp.Models.Settings.AppSettings;
+@using PortfolioWebApp.Areas.Setup.Pages
+
 @{
     ViewData["Title"] = "Setup";
 }
@@ -13,27 +14,27 @@
             <div class="sidebar-sticky pt-3">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link disabled  @(Model.SetupStep == SetupStep.Database ? "text-primary" : "")">
+                        <a class="nav-link disabled  @(Model.CurrentSetupStep == IndexModel.SetupStep.Database ? "text-primary" : "")">
                             <span data-feather="home"></span>
                             Setup 1: Setup Database<span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled  @(Model.SetupStep == SetupStep.Mailer ? "text-primary" : "")">
+                        <a class="nav-link disabled  @(Model.CurrentSetupStep == IndexModel.SetupStep.Mailer ? "text-primary" : "")">
                             <span data-feather="home"></span>
                             Setup 2: Setup Mailer (optional)<span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled @(Model.SetupStep == SetupStep.Account ? "text-primary" : "")">
-                            <span data-feather="file"></span>
-                            Setup 3: Setup Account
+                        <a class="nav-link disabled @(Model.CurrentSetupStep == IndexModel.SetupStep.Other ? "text-primary" : "") ">
+                            <span data-feather="menu"></span>
+                            Setup 3: Other
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled @(Model.SetupStep == SetupStep.Other ? "text-primary" : "") ">
-                            <span data-feather="menu"></span>
-                            Setup 4: Other
+                        <a class="nav-link disabled @(Model.CurrentSetupStep == IndexModel.SetupStep.Account ? "text-primary" : "")">
+                            <span data-feather="file"></span>
+                            Setup 4: Setup Account
                         </a>
                     </li>
                 </ul>
@@ -47,7 +48,7 @@
 
             <partial name="_StatusMessage" for="StatusMessage" />
 
-            @if (Model.SetupStep == SetupStep.Database)
+            @if (Model.CurrentSetupStep == IndexModel.SetupStep.Database)
             {
                 <div class="card">
                     <div class="card-header">
@@ -84,7 +85,7 @@
                     </div>
                 </div>
             }
-            else if (Model.SetupStep == SetupStep.Mailer)
+            else if (Model.CurrentSetupStep == IndexModel.SetupStep.Mailer)
             {
                 <div class="card">
                     <div class="card-header">
@@ -127,7 +128,42 @@
                     </div>
                 </div>
             }
-            else if (Model.SetupStep == SetupStep.Account)
+            else if (Model.CurrentSetupStep == IndexModel.SetupStep.Other)
+            {
+                <div class="card">
+                    <div class="card-header">
+                        Account
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+
+                            <input type="hidden" asp-for="Input.DbServer" />
+                            <input type="hidden" asp-for="Input.DbUser" />
+                            <input type="hidden" asp-for="Input.DbPassword" />
+                            <input type="hidden" asp-for="Input.Db" />
+
+                            <input type="hidden" asp-for="Input.MailerHost" />
+                            <input type="hidden" asp-for="Input.MailerPort" />
+                            <input type="hidden" asp-for="Input.MailerCredentialUserName" />
+                            <input type="hidden" asp-for="Input.MailerCredentialPassword" />
+
+                            <input type="hidden" asp-for="Input.Email" />
+                            <input type="hidden" asp-for="Input.Password" />
+                            <input type="hidden" asp-for="Input.ConfirmPassword" />
+
+
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Input.PortfolioTitle"></label>
+                                <input asp-for="Input.PortfolioTitle" class="form-control" />
+                                <span asp-validation-for="Input.PortfolioTitle" class="text-danger"></span>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Next</button>
+                        </form>
+                    </div>
+                </div>
+            }
+            else if (Model.CurrentSetupStep == IndexModel.SetupStep.Account)
             {
                 <div class="card">
                     <div class="card-header">
@@ -162,41 +198,6 @@
                                 <label asp-for="Input.ConfirmPassword"></label>
                                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Next</button>
-                        </form>
-                    </div>
-                </div>
-            }
-            else if (Model.SetupStep == SetupStep.Other)
-            {
-                <div class="card">
-                    <div class="card-header">
-                        Account
-                    </div>
-                    <div class="card-body">
-                        <form method="post">
-
-                            <input type="hidden" asp-for="Input.DbServer" />
-                            <input type="hidden" asp-for="Input.DbUser" />
-                            <input type="hidden" asp-for="Input.DbPassword" />
-                            <input type="hidden" asp-for="Input.Db" />
-
-                            <input type="hidden" asp-for="Input.MailerHost" />
-                            <input type="hidden" asp-for="Input.MailerPort" />
-                            <input type="hidden" asp-for="Input.MailerCredentialUserName" />
-                            <input type="hidden" asp-for="Input.MailerCredentialPassword" />
-
-                            <input type="hidden" asp-for="Input.Email" />
-                            <input type="hidden" asp-for="Input.Password" />
-                            <input type="hidden" asp-for="Input.ConfirmPassword" />
-
-
-                            <div asp-validation-summary="All" class="text-danger"></div>
-                            <div class="form-group">
-                                <label asp-for="Input.PortfolioTitle"></label>
-                                <input asp-for="Input.PortfolioTitle" class="form-control" />
-                                <span asp-validation-for="Input.PortfolioTitle" class="text-danger"></span>
                             </div>
                             <button type="submit" class="btn btn-primary">Next</button>
                         </form>

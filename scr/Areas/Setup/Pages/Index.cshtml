@@ -7,168 +7,213 @@
 }
 
 
-<partial name="_StatusMessage" for="StatusMessage" />
-
-@if (Model.SetupStep == SetupStep.Database)
-{
-    <div class="card">
-        <div class="card-header">
-            Database
-        </div>
-        <div class="card-body">
-            <div class="alert alert-warning" role="alert">
-                <b>Mysql only.</b>
+<div class="container-fluid">
+    <div class="row">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+            <div class="sidebar-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link disabled  @(Model.SetupStep == SetupStep.Database ? "text-primary" : "")">
+                            <span data-feather="home"></span>
+                            Setup 1: Setup Database<span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled  @(Model.SetupStep == SetupStep.Mailer ? "text-primary" : "")">
+                            <span data-feather="home"></span>
+                            Setup 2: Setup Mailer (optional)<span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled @(Model.SetupStep == SetupStep.Account ? "text-primary" : "")">
+                            <span data-feather="file"></span>
+                            Setup 3: Setup Account
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled @(Model.SetupStep == SetupStep.Other ? "text-primary" : "") ">
+                            <span data-feather="menu"></span>
+                            Setup 4: Other
+                        </a>
+                    </li>
+                </ul>
             </div>
-            <form method="post">
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Input.DbServer"></label>
-                    <input asp-for="Input.DbServer" class="form-control" />
-                    <span asp-validation-for="Input.DbServer" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.DbUser"></label>
-                    <input asp-for="Input.DbUser" class="form-control" />
-                    <span asp-validation-for="Input.DbUser" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.DbPassword"></label>
-                    <input asp-for="Input.DbPassword" class="form-control" />
-                    <span asp-validation-for="Input.DbPassword" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.Db"></label>
-                    <input asp-for="Input.Db" class="form-control" />
-                    <span asp-validation-for="Input.Db" class="text-danger"></span>
-                </div>
-                <button type="submit" class="btn btn-primary">Next</button>
-            </form>
-        </div>
-    </div>
-}
-else if (Model.SetupStep == SetupStep.Mailer)
-{
-    <div class="card">
-        <div class="card-header">
-            Mailer
-        </div>
-        <div class="card-body">
-            <div class="alert alert-warning" role="alert">
-                <b>SmtpClient only.</b>
+        </nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">@ViewData["Title"]</h1>
             </div>
-            <form method="post">
 
-                <input type="hidden" asp-for="Input.DbServer" />
-                <input type="hidden" asp-for="Input.DbUser" />
-                <input type="hidden" asp-for="Input.DbPassword" />
-                <input type="hidden" asp-for="Input.Db" />
+            <partial name="_StatusMessage" for="StatusMessage" />
 
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Input.MailerHost"></label>
-                    <input asp-for="Input.MailerHost" class="form-control" />
-                    <span asp-validation-for="Input.MailerHost" class="text-danger"></span>
+            @if (Model.SetupStep == SetupStep.Database)
+            {
+                <div class="card">
+                    <div class="card-header">
+                        Database
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-warning" role="alert">
+                            <b>Mysql only.</b>
+                        </div>
+                        <form method="post">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Input.DbServer"></label>
+                                <input asp-for="Input.DbServer" class="form-control" />
+                                <span asp-validation-for="Input.DbServer" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Input.DbUser"></label>
+                                <input asp-for="Input.DbUser" class="form-control" />
+                                <span asp-validation-for="Input.DbUser" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Input.DbPassword"></label>
+                                <input asp-for="Input.DbPassword" class="form-control" />
+                                <span asp-validation-for="Input.DbPassword" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Input.Db"></label>
+                                <input asp-for="Input.Db" class="form-control" />
+                                <span asp-validation-for="Input.Db" class="text-danger"></span>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Next</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Input.MailerPort"></label>
-                    <input asp-for="Input.MailerPort" class="form-control" />
-                    <span asp-validation-for="Input.MailerPort" class="text-danger"></span>
+            }
+            else if (Model.SetupStep == SetupStep.Mailer)
+            {
+                <div class="card">
+                    <div class="card-header">
+                        Mailer
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-warning" role="alert">
+                            <b>SmtpClient only.</b>
+                        </div>
+                        <form method="post">
+
+                            <input type="hidden" asp-for="Input.DbServer" />
+                            <input type="hidden" asp-for="Input.DbUser" />
+                            <input type="hidden" asp-for="Input.DbPassword" />
+                            <input type="hidden" asp-for="Input.Db" />
+
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Input.MailerHost"></label>
+                                <input asp-for="Input.MailerHost" class="form-control" />
+                                <span asp-validation-for="Input.MailerHost" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Input.MailerPort"></label>
+                                <input asp-for="Input.MailerPort" class="form-control" />
+                                <span asp-validation-for="Input.MailerPort" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Input.MailerCredentialUserName"></label>
+                                <input asp-for="Input.MailerCredentialUserName" class="form-control" />
+                                <span asp-validation-for="Input.MailerCredentialUserName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Input.MailerCredentialPassword"></label>
+                                <input asp-for="Input.MailerCredentialPassword" class="form-control" />
+                                <span asp-validation-for="Input.MailerCredentialPassword" class="text-danger"></span>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Next</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Input.MailerCredentialUserName"></label>
-                    <input asp-for="Input.MailerCredentialUserName" class="form-control" />
-                    <span asp-validation-for="Input.MailerCredentialUserName" class="text-danger"></span>
+            }
+            else if (Model.SetupStep == SetupStep.Account)
+            {
+                <div class="card">
+                    <div class="card-header">
+                        Account
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+
+                            <input type="hidden" asp-for="Input.DbServer" />
+                            <input type="hidden" asp-for="Input.DbUser" />
+                            <input type="hidden" asp-for="Input.DbPassword" />
+                            <input type="hidden" asp-for="Input.Db" />
+
+                            <input type="hidden" asp-for="Input.MailerHost" />
+                            <input type="hidden" asp-for="Input.MailerPort" />
+                            <input type="hidden" asp-for="Input.MailerCredentialUserName" />
+                            <input type="hidden" asp-for="Input.MailerCredentialPassword" />
+
+
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Input.Email"></label>
+                                <input asp-for="Input.Email" class="form-control" />
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Input.Password"></label>
+                                <input asp-for="Input.Password" class="form-control" />
+                                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Input.ConfirmPassword"></label>
+                                <input asp-for="Input.ConfirmPassword" class="form-control" />
+                                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Next</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Input.MailerCredentialPassword"></label>
-                    <input asp-for="Input.MailerCredentialPassword" class="form-control" />
-                    <span asp-validation-for="Input.MailerCredentialPassword" class="text-danger"></span>
+            }
+            else if (Model.SetupStep == SetupStep.Other)
+            {
+                <div class="card">
+                    <div class="card-header">
+                        Account
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+
+                            <input type="hidden" asp-for="Input.DbServer" />
+                            <input type="hidden" asp-for="Input.DbUser" />
+                            <input type="hidden" asp-for="Input.DbPassword" />
+                            <input type="hidden" asp-for="Input.Db" />
+
+                            <input type="hidden" asp-for="Input.MailerHost" />
+                            <input type="hidden" asp-for="Input.MailerPort" />
+                            <input type="hidden" asp-for="Input.MailerCredentialUserName" />
+                            <input type="hidden" asp-for="Input.MailerCredentialPassword" />
+
+                            <input type="hidden" asp-for="Input.Email" />
+                            <input type="hidden" asp-for="Input.Password" />
+                            <input type="hidden" asp-for="Input.ConfirmPassword" />
+
+
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Input.PortfolioTitle"></label>
+                                <input asp-for="Input.PortfolioTitle" class="form-control" />
+                                <span asp-validation-for="Input.PortfolioTitle" class="text-danger"></span>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Next</button>
+                        </form>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Next</button>
-            </form>
-        </div>
+            }
+            else
+            {
+                @: Go Away
+            }
+
+        </main>
     </div>
-}
-else if (Model.SetupStep == SetupStep.Account)
-{
-    <div class="card">
-        <div class="card-header">
-            Account
-        </div>
-        <div class="card-body">
-            <form method="post">
-
-                <input type="hidden" asp-for="Input.DbServer" />
-                <input type="hidden" asp-for="Input.DbUser" />
-                <input type="hidden" asp-for="Input.DbPassword" />
-                <input type="hidden" asp-for="Input.Db" />
-
-                <input type="hidden" asp-for="Input.MailerHost" />
-                <input type="hidden" asp-for="Input.MailerPort" />
-                <input type="hidden" asp-for="Input.MailerCredentialUserName" />
-                <input type="hidden" asp-for="Input.MailerCredentialPassword" />
+</div>
 
 
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Input.Email"></label>
-                    <input asp-for="Input.Email" class="form-control" />
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.Password"></label>
-                    <input asp-for="Input.Password" class="form-control" />
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.ConfirmPassword"></label>
-                    <input asp-for="Input.ConfirmPassword" class="form-control" />
-                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                </div>
-                <button type="submit" class="btn btn-primary">Next</button>
-            </form>
-        </div>
-    </div>
-}
-else if (Model.SetupStep == SetupStep.Other)
-{
-    <div class="card">
-        <div class="card-header">
-            Account
-        </div>
-        <div class="card-body">
-            <form method="post">
 
-                <input type="hidden" asp-for="Input.DbServer" />
-                <input type="hidden" asp-for="Input.DbUser" />
-                <input type="hidden" asp-for="Input.DbPassword" />
-                <input type="hidden" asp-for="Input.Db" />
-
-                <input type="hidden" asp-for="Input.MailerHost" />
-                <input type="hidden" asp-for="Input.MailerPort" />
-                <input type="hidden" asp-for="Input.MailerCredentialUserName" />
-                <input type="hidden" asp-for="Input.MailerCredentialPassword" />
-
-                <input type="hidden" asp-for="Input.Email" />
-                <input type="hidden" asp-for="Input.Password" />
-                <input type="hidden" asp-for="Input.ConfirmPassword" />
-
-
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Input.PortfolioTitle"></label>
-                    <input asp-for="Input.PortfolioTitle" class="form-control" />
-                    <span asp-validation-for="Input.PortfolioTitle" class="text-danger"></span>
-                </div>
-                <button type="submit" class="btn btn-primary">Next</button>
-            </form>
-        </div>
-    </div>
-}
-else
-{
-    @: Go Away
-}
 
 
 

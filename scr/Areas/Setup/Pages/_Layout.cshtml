@@ -1,10 +1,4 @@
-﻿
-@using PortfolioWebApp.Models.Settings.AppSettings;
-@inject Microsoft.Extensions.Options.IOptionsSnapshot<AppSettingsOptions> options;
-
-
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -31,49 +25,10 @@
     <link rel="stylesheet" href="~/css/dashboard.css" />
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-                <div class="sidebar-sticky pt-3">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link disabled  @(options.Value.CurrentSetupStep == SetupStep.Database ? "text-primary" : "")">
-                                <span data-feather="home"></span>
-                                Setup 1: Setup Database<span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled  @(options.Value.CurrentSetupStep == SetupStep.Mailer ? "text-primary" : "")">
-                                <span data-feather="home"></span>
-                                Setup 2: Setup Mailer (optional)<span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled @(options.Value.CurrentSetupStep == SetupStep.Account ? "text-primary" : "")">
-                                <span data-feather="file"></span>
-                                Setup 3: Setup Account
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled @(options.Value.CurrentSetupStep == SetupStep.Other ? "text-primary" : "") ">
-                                <span data-feather="menu"></span>
-                                Setup 4: Other
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
 
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">@ViewData["Title"]</h1>
-                </div>
+    @RenderBody()
 
-                @RenderBody()
-
-            </main>
-        </div>
-    </div>
+    
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

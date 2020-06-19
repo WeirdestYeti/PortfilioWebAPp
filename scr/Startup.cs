@@ -44,11 +44,16 @@ namespace PortfolioWebApp
                 services.ConfigureWritable<MailerSettingsOptions>(Configuration.GetSection(MailerSettingsOptions.MailerSettings), "appsettings.json");
             }
 
-            AppSettingsOptions appSettingsOptions = Configuration.GetSection(AppSettingsOptions.AppSettings).Get<AppSettingsOptions>();
+            
 
 
-            services.AddDbContext<AppDbContext>(options =>
-                options.UseMySql(appSettingsOptions.ConnectionString));
+            services.AddDbContext<AppDbContext>((serviceProvider, builder) =>
+            {
+                AppSettingsOptions appSettingsOptions = Configuration.GetSection(AppSettingsOptions.AppSettings).Get<AppSettingsOptions>();
+
+                builder.UseMySql(appSettingsOptions.ConnectionString);
+            });
+
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<AppDbContext>();
             services.AddRazorPages()

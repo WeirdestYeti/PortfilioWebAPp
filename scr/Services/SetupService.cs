@@ -1,6 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
+using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
 using PortfolioWebApp.Data;
+using PortfolioWebApp.Models.Accounts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,49 +16,72 @@ namespace PortfolioWebApp.Services
 {
     public class SetupService
     {
+        private readonly ILogger<SetupService> _logger;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-
-        public SetupService()
+        public SetupService(ILogger<SetupService> logger, UserManager<ApplicationUser> userManager, AppDbContext dbContext)
         {
-
+            _logger = logger;
+            _userManager = userManager;
         }
 
-        //public async Task<(bool, string)> CreateAccountAsync(string email, string password)
-        //{
+        public async Task<(bool, List<string>)> CreateDbAndAccountAsync(string connectionString, string email, string password)
+        {
+            var options = new DbContextOptionsBuilder<AppDbContext>();
 
-        //    var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
-        //    var result = await _userManager.CreateAsync(user, Input.Password);
-        //    if (result.Succeeded)
-        //    {
-        //        _logger.LogInformation("User created a new account with password.");
+            options.UseMySql(connectionString);
 
-        //        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-        //        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-        //        var callbackUrl = Url.Page(
-        //            "/Account/ConfirmEmail",
-        //            pageHandler: null,
-        //            values: new { area = "Identity", userId = user.Id, code = code },
-        //            protocol: Request.Scheme);
+            (bool, List<string>) result = (false, new List<string>());
 
-        //        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-        //            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+            using(var db = new AppDbContext(options.Options))
+            {
+                bool dbConnectResponse = false;
 
-        //        if (_userManager.Options.SignIn.RequireConfirmedAccount)
-        //        {
-        //            return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
-        //        }
-        //        else
-        //        {
-        //            await _signInManager.SignInAsync(user, isPersistent: false);
-        //            return LocalRedirect(returnUrl);
-        //        }
-        //    }
-        //    foreach (var error in result.Errors)
+                try
+                {
+                    dbConnectResponse = await db.Database.CanConnectAsync();
+                }
+                catch
+                {                   
+                    result.Item1 = false;
+                }
 
-        //    {
-        //        ModelState.AddModelError(string.Empty, error.Description);
-        //    }
-        //}
+                if (!dbConnectResponse)
+                {
+                    result.Item1 = false;
+                    result.Item2.Add("Can't coonect to the database!");
+                }
+                else
+                {
+                    db.Database.Migrate();
+
+                    ApplicationUser user = new ApplicationUser { UserName = email, Email = email };
+
+                    var accountResult = await _userManager.CreateAsync(user, password);
+
+                    if (accountResult.Succeeded)
+                    {
+                        _logger.LogInformation("User created a new account with password.");
+
+                        result.Item1 = true;
+                        result.Item2.Add("Account successfully created.");
+                    }
+                    else
+                    {
+                        foreach (var error in accountResult.Errors)
+                        {
+                            result.Item2.Add(error.Description);
+                        }
+
+                        result.Item1 = false;
+                    }
+
+                }
+
+            }
+
+            return result;
+        }
 
         public async Task<(bool, string)> TestDatabaseConnectionAsync(string dbConnectionString)
         {

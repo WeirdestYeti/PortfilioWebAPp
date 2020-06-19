@@ -59,6 +59,7 @@
                             <b>Mysql only.</b>
                         </div>
                         <form method="post">
+
                             <div asp-validation-summary="All" class="text-danger"></div>
                             <div class="form-group">
                                 <label asp-for="Input.DbServer"></label>
@@ -147,11 +148,6 @@
                             <input type="hidden" asp-for="Input.MailerCredentialUserName" />
                             <input type="hidden" asp-for="Input.MailerCredentialPassword" />
 
-                            <input type="hidden" asp-for="Input.Email" />
-                            <input type="hidden" asp-for="Input.Password" />
-                            <input type="hidden" asp-for="Input.ConfirmPassword" />
-
-
                             <div asp-validation-summary="All" class="text-danger"></div>
                             <div class="form-group">
                                 <label asp-for="Input.PortfolioTitle"></label>
@@ -182,6 +178,7 @@
                             <input type="hidden" asp-for="Input.MailerCredentialUserName" />
                             <input type="hidden" asp-for="Input.MailerCredentialPassword" />
 
+                            <input type="hidden" asp-for="Input.PortfolioTitle" />
 
                             <div asp-validation-summary="All" class="text-danger"></div>
                             <div class="form-group">
@@ -201,6 +198,17 @@
                             </div>
                             <button type="submit" class="btn btn-primary">Next</button>
                         </form>
+                    </div>
+                </div>
+            }
+            else if (Model.CurrentSetupStep == IndexModel.SetupStep.Finished)
+            {
+                <div class="card">
+                    <div class="card-header">
+                        Finished
+                    </div>
+                    <div class="card-body">             
+                        <a asp-page="/Index" asp-area="Admin" class="btn btn-lg btn-success"  role="button">Go to Admin Panel.</a>
                     </div>
                 </div>
             }

@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using PortfolioWebApp.Data;
+using PortfolioWebApp.Models.Settings;
 using PortfolioWebApp.Models.Settings.AppSettings;
 using PortfolioWebApp.Services;
 using PortfolioWebApp.Utils.WritableOptions;
@@ -29,17 +32,20 @@ namespace PortfolioWebApp.Areas.Setup.Pages
         }
 
         private IWritableOptions<AppSettingsOptions> _appSettings;
+        private IWritableOptions<MailerSettingsOptions> _mailerOptions;
 
         private readonly SetupService _setupService;
 
         public bool IsSetupFinished { get; set; }
 
+        [TempData]
         public SetupStep CurrentSetupStep { get; set; }
 
-        public IndexModel(IWritableOptions<AppSettingsOptions> appSettings, SetupService setupService)
+        public IndexModel(IWritableOptions<AppSettingsOptions> appSettings, SetupService setupService, IWritableOptions<MailerSettingsOptions> mailerOptions)
         {
             _setupService = setupService;
             _appSettings = appSettings;
+            _mailerOptions = mailerOptions;
         }
 
         [TempData]
@@ -132,7 +138,9 @@ namespace PortfolioWebApp.Areas.Setup.Pages
 
                 if (ModelState.IsValid)
                 {
-                    (bool, string) result = await _setupService.TestDatabaseConnectionAsync($"Server={Input.DbServer};Database={Input.Db};User={Input.DbUser};Password={Input.DbPassword};");
+                    string connectionString = $"Server={Input.DbServer};Database={Input.Db};User={Input.DbUser};Password={Input.DbPassword};";
+
+                    (bool, string) result = await _setupService.TestDatabaseConnectionAsync(connectionString);
 
                     if (!result.Item1)
                     {
@@ -140,9 +148,9 @@ namespace PortfolioWebApp.Areas.Setup.Pages
                     }
                     else
                     {
+                        _appSettings.Update(opt => opt.ConnectionString = connectionString);
 
                         CurrentSetupStep = SetupStep.Mailer;
-
                         return Page();
                     }
                 }
@@ -150,8 +158,9 @@ namespace PortfolioWebApp.Areas.Setup.Pages
             else if (CurrentSetupStep == SetupStep.Mailer)
             {
                 // Removing next step validation.
+                ModelState.Remove("Input.Email");
+                ModelState.Remove("Input.Password");
                 ModelState.Remove("Input.PortfolioTitle");
-
 
                 if (ModelState.IsValid)
                 {
@@ -163,6 +172,10 @@ namespace PortfolioWebApp.Areas.Setup.Pages
             }            
             else if (CurrentSetupStep == SetupStep.Other)
             {
+                // Removing next step validation.
+                ModelState.Remove("Input.Email");
+                ModelState.Remove("Input.Password");
+
                 if (ModelState.IsValid)
                 {
 
@@ -175,13 +188,40 @@ namespace PortfolioWebApp.Areas.Setup.Pages
             {
                 if (ModelState.IsValid)
                 {
+                    (bool, List<string>) result = await _setupService.CreateDbAndAccountAsync($"Server={Input.DbServer};Database={Input.Db};User={Input.DbUser};Password={Input.DbPassword};", Input.Email, Input.Password);
 
+                    if (!result.Item1)
+                    {
+                        foreach (string error in result.Item2)
+                        {
+                            ModelState.AddModelError(string.Empty, error);
+                        }
+
+                        return Page();
+                    }
 
                     // finish and save everything here
 
+                    _appSettings.Update(opt =>
+                    {
+                        opt.ConnectionString = $"Server={Input.DbServer};Database={Input.Db};User={Input.DbUser};Password={Input.DbPassword};";
+                        opt.PortfolioTitle = Input.PortfolioTitle;
+                        opt.SetupFinished = true;
+                    });
+
+                    _mailerOptions.Update(opt =>
+                    {
+                        opt.Host = Input.MailerHost;
+                        opt.Port = Input.MailerPort;
+                        opt.CredentialUserName = Input.MailerCredentialUserName;
+                        opt.CredentialPassword = Input.MailerCredentialPassword;
+                    });
+
+                    IsSetupFinished = true;
+                    CurrentSetupStep = SetupStep.Finished;
+
                     return Page();
                 }
-
             }
             else
             {

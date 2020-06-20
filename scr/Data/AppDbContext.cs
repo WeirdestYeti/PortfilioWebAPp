@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PortfolioWebApp.Models;
 using PortfolioWebApp.Models.Accounts;
+using PortfolioWebApp.Models.MyProjects;
 using PortfolioWebApp.Models.Navigation;
 using PortfolioWebApp.Models.SimplePages;
 using System;
@@ -21,6 +22,7 @@ namespace PortfolioWebApp.Data
         public DbSet<ApplicationUser> Accounts { get; set; }
         public DbSet<SimplePage> SimplePages { get; set; }
         public DbSet<PortfolioNavigation> PortfolioNavigations { get; set; }
+        public DbSet<MyProject> MyProjects { get; set; }
 
     }
 }

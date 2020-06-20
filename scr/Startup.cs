@@ -76,6 +76,7 @@ namespace PortfolioWebApp
             services.AddTransient<SimplePageService>();
             services.AddTransient<PortfolioNavigationService>();
             services.AddTransient<SetupService>();
+            services.AddTransient<MyProjectService>();
 
         }
 

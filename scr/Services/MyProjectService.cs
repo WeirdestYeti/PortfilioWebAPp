@@ -17,9 +17,24 @@ namespace PortfolioWebApp.Services
             _dbContext = appDbContext;
         }
 
-        public async Task<List<MyProject>> GetMyProjectsAsync()
+        public async Task<List<MyProject>> GetAllAsync()
         {
             return await _dbContext.MyProjects.ToListAsync();
+        }
+
+
+        public async Task<(bool, string)> CreateAsync(MyProject myProject)
+        {
+            if(myProject != null)
+            {
+                _dbContext.MyProjects.Add(myProject);
+
+                await _dbContext.SaveChangesAsync();
+
+                return (true, "Project added successfully");
+            }
+
+            return (false, "Null object provided.");
         }
     }
 }

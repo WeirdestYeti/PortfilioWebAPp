@@ -1,0 +1,110 @@
+﻿@page
+@model PortfolioWebApp.Areas.Admin.Pages.MyProjects.AddModel
+@{
+    ViewData["Title"] = "Add My Project";
+}
+
+<form id="addMyProject" method="post" enctype="multipart/form-data">
+
+    <partial name="_StatusMessage" for="StatusMessage" />
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group row">
+        <label asp-for="Input.Title" class="col-sm-2 col-form-label">
+            Title
+        </label>
+        <div class="col-sm-10">
+            <input asp-for="Input.Title" class="form-control">
+            <span asp-validation-for="Input.Title" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Input.ShortDescription" class="col-sm-2 col-form-label">
+            Short Description
+        </label>
+        <div class="col-sm-10">
+            <input asp-for="Input.ShortDescription" class="form-control">
+            <span asp-validation-for="Input.ShortDescription" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Input.IsRepositoryPrivate" class="col-sm-2 col-form-label">
+            Repository Status
+            <small class="form-text text-muted"></small>
+        </label>
+        <div class="col-sm-10">
+            <div class="form-check custom-control custom-checkbox">
+                <input class="custom-control-input" asp-for="Input.IsRepositoryPrivate">
+                <label class="custom-control-label" asp-for="Input.IsRepositoryPrivate">
+                    Is Repository private?
+                </label>
+            </div>
+        </div>
+        <span asp-validation-for="Input.IsRepositoryPrivate" class="text-danger"></span>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Input.RepositoryUrl" class="col-sm-2 col-form-label">
+            Repository Url
+        </label>
+        <div class="col-sm-10">
+            <input asp-for="Input.RepositoryUrl" class="form-control">
+            <span asp-validation-for="Input.RepositoryUrl" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Input.HTMLContent" class="col-sm-2 col-form-label">
+            Page HTML
+            <small class="form-text text-muted">Raw html which will display your project content.</small>
+        </label>
+        <div class="col-sm-10">
+            <textarea asp-for="Input.HTMLContent" class="form-control" rows="15"></textarea>
+        </div>
+        <span asp-validation-for="Input.HTMLContent" class="text-danger"></span>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Input.Images" class="col-sm-2 col-form-label">
+            Images
+            <small class="form-text text-muted">Upload multiple images.</small>
+        </label>
+        <div class="col-sm-10">
+            <div class="input-group mb-3">
+                <div class="custom-file">
+                    <input class="custom-file-input" asp-for="Input.Images" multiple>
+                    <label class="custom-file-label" asp-for="Input.Images">Choose file</label>
+                </div>
+            </div>
+        </div>
+        <span asp-validation-for="Input.HTMLContent" class="text-danger"></span>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-10">
+            <button type="submit" class="btn btn-primary">Add</button>
+            <a asp-page="/MyProjects/Index" asp-area="Admin" class="btn btn-info" role="button" aria-pressed="true">Back</a>
+        </div>
+    </div>
+
+</form>
+
+
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                var fileLabel = $(this).next('.custom-file-label');
+                var files = $(this)[0].files;
+
+                if (files.length > 1) {
+                    fileLabel.html(files.length + ' files selected');
+                }
+                else if (files.length == 1) {
+                    fileLabel.html(files[0].name);
+                }
+            });
+        });
+    </script>
+}

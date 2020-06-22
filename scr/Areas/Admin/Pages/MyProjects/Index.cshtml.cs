@@ -18,12 +18,14 @@ namespace PortfolioWebApp.Areas.Admin.Pages.MyProjects
             _myProjectService = myProjectService;
         }
 
+        [TempData]
+        public string StatusMessage { get; set; }
 
         public List<MyProject> MyProjects { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            MyProjects = await _myProjectService.GetMyProjectsAsync();
+            MyProjects = await _myProjectService.GetAllAsync();
 
             return Page();
         }

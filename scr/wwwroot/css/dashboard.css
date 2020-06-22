@@ -101,3 +101,23 @@
         border-color: transparent;
         box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
     }
+
+
+.form-check .custom-control-label {
+    color: #2c2b2c;
+    font-size: 12px;
+    line-height: 2.7;
+    padding-left: 15px;
+    text-transform: uppercase;
+}
+
+.form-check .custom-control-label::after,
+.form-check .custom-control-label::before {
+    height: 25px;
+    width: 25px;
+}
+
+.form-check .custom-control-label::before {
+    background-color: #fff;
+    border: 1px solid #ced4da;
+}

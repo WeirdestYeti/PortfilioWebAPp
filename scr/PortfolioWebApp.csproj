@@ -17,6 +17,20 @@
     <Compile Remove="Migrations\20200531100752_CustomAppSettings.Designer.cs" />
     <Compile Remove="Migrations\20200531113400_CustomAppSettings.cs" />
     <Compile Remove="Migrations\20200531113400_CustomAppSettings.Designer.cs" />
+    <Compile Remove="Migrations\20200619223311_MyProjects.cs" />
+    <Compile Remove="Migrations\20200619223311_MyProjects.Designer.cs" />
+    <Compile Remove="Migrations\20200622180430_MyProjects.cs" />
+    <Compile Remove="Migrations\20200622180430_MyProjects.Designer.cs" />
+    <Compile Remove="Migrations\20200622181649_MyProjects.cs" />
+    <Compile Remove="Migrations\20200622181649_MyProjects.Designer.cs" />
+    <Compile Remove="Migrations\20200622181923_MyProjects.cs" />
+    <Compile Remove="Migrations\20200622181923_MyProjects.Designer.cs" />
+    <Compile Remove="Migrations\20200622184531_MyProjects.cs" />
+    <Compile Remove="Migrations\20200622184531_MyProjects.Designer.cs" />
+    <Compile Remove="Migrations\20200622195005_MyProjects.cs" />
+    <Compile Remove="Migrations\20200622195005_MyProjects.Designer.cs" />
+    <Compile Remove="Migrations\20200622195340_MyProjects.cs" />
+    <Compile Remove="Migrations\20200622195340_MyProjects.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

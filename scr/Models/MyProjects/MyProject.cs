@@ -1,7 +1,7 @@
-﻿using PortfolioWebApp.Models.Uploads;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,6 +18,6 @@ namespace PortfolioWebApp.Models.MyProjects
         [MaxLength(256)]
         public string RepositoryUrl { get; set; }
         public string HTMLContent { get; set; }
-        public List<Image> Images { get; set; }
+        public List<MyProjectImage> MyProjectImages { get; set; }
     }
 }

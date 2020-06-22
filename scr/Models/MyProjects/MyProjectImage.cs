@@ -4,13 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PortfolioWebApp.Models.Uploads
+namespace PortfolioWebApp.Models.MyProjects
 {
-    public class Image
+    public class MyProjectImage
     {
         public int Id { get; set; }
         public DateTime Time { get; set; }
         [MaxLength(200)]
         public string Location { get; set; }
-    }
+}
 }

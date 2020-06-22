@@ -4,7 +4,16 @@
     ViewData["Title"] = "My Projects";
 }
 
+    <div class="row">
+        <div class="col">
+            <partial name="_StatusMessage" for="StatusMessage" />
+            <div class="pb-3 float-right">
+                <a asp-page="/MyProjects/Add" asp-area="Admin" class="btn btn-primary" role="button" aria-pressed="true">Add New</a>
+            </div>
+        </div>
 
+
+    </div>
 
     <div class="col-md-12">
         <table class="table">
@@ -32,9 +41,9 @@
                                 </button>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" >View</a>
-                                    <a class="dropdown-item" asp-page="/SimplePages/Edit" asp-area="Admin" asp-route-id="@Model.MyProjects[i].Id">Edit</a>
+                                    <a class="dropdown-item" asp-page="/MyProjects/Edit" asp-area="Admin" asp-route-id="@Model.MyProjects[i].Id">Edit</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item text-danger" asp-page="/SimplePages/Delete" asp-area="Admin" asp-route-id="@Model.MyProjects[i].Id">Delete</a>
+                                    <a class="dropdown-item text-danger" asp-page="/MyProjects/Delete" asp-area="Admin" asp-route-id="@Model.MyProjects[i].Id">Delete</a>
                                 </div>
                             </div>
                         </td>

@@ -9,7 +9,7 @@ using PortfolioWebApp.Data;
 namespace PortfolioWebApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200619223311_MyProjects")]
+    [Migration("20200622195705_MyProjects")]
     partial class MyProjects
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -244,6 +244,29 @@ namespace PortfolioWebApp.Migrations
                     b.ToTable("MyProjects");
                 });
 
+            modelBuilder.Entity("PortfolioWebApp.Models.MyProjects.MyProjectImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4")
+                        .HasMaxLength(200);
+
+                    b.Property<int?>("MyProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MyProjectId");
+
+                    b.ToTable("MyProjectImage");
+                });
+
             modelBuilder.Entity("PortfolioWebApp.Models.Navigation.PortfolioNavigation", b =>
                 {
                     b.Property<int>("Id")
@@ -287,29 +310,6 @@ namespace PortfolioWebApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SimplePages");
-                });
-
-            modelBuilder.Entity("PortfolioWebApp.Models.Uploads.Image", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Location")
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4")
-                        .HasMaxLength(200);
-
-                    b.Property<int?>("MyProjectId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Time")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MyProjectId");
-
-                    b.ToTable("Image");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -363,10 +363,10 @@ namespace PortfolioWebApp.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PortfolioWebApp.Models.Uploads.Image", b =>
+            modelBuilder.Entity("PortfolioWebApp.Models.MyProjects.MyProjectImage", b =>
                 {
                     b.HasOne("PortfolioWebApp.Models.MyProjects.MyProject", null)
-                        .WithMany("Images")
+                        .WithMany("MyProjectImages")
                         .HasForeignKey("MyProjectId");
                 });
 #pragma warning restore 612, 618

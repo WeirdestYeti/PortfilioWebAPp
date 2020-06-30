@@ -26,7 +26,7 @@ namespace PortfolioWebApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MyProjectImage",
+                name: "MyProjectImages",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -37,9 +37,9 @@ namespace PortfolioWebApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MyProjectImage", x => x.Id);
+                    table.PrimaryKey("PK_MyProjectImages", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MyProjectImage_MyProjects_MyProjectId",
+                        name: "FK_MyProjectImages_MyProjects_MyProjectId",
                         column: x => x.MyProjectId,
                         principalTable: "MyProjects",
                         principalColumn: "Id",
@@ -47,15 +47,15 @@ namespace PortfolioWebApp.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_MyProjectImage_MyProjectId",
-                table: "MyProjectImage",
+                name: "IX_MyProjectImages_MyProjectId",
+                table: "MyProjectImages",
                 column: "MyProjectId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "MyProjectImage");
+                name: "MyProjectImages");
 
             migrationBuilder.DropTable(
                 name: "MyProjects");

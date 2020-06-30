@@ -18,13 +18,11 @@ namespace PortfolioWebApp.Areas.Admin.Pages.MyProjects
     public class AddModel : PageModel
     {
         private readonly MyProjectService _projectService;
-        private IWebHostEnvironment _environment;
 
         private string[] permittedExtensions = { ".jpg", ".jpeg", ".gif", ".png" };
 
         public AddModel(IWebHostEnvironment environment, MyProjectService projectService)
         {
-            _environment = environment;
             _projectService = projectService;
         }
 
@@ -59,8 +57,6 @@ namespace PortfolioWebApp.Areas.Admin.Pages.MyProjects
         {
             if (ModelState.IsValid)
             {
-                List<MyProjectImage> images = new List<MyProjectImage>();
-
                 if (Input.Images != null && Input.Images.Count > 0)
                 {
                     bool areFilesAllowed = true;
@@ -79,35 +75,6 @@ namespace PortfolioWebApp.Areas.Admin.Pages.MyProjects
 
                         return Page();
                     }
-
-                    var serverPath = Path.Combine(_environment.WebRootPath);
-                    var imagePath = "uploads/images/" + "monthly_" + DateTime.Now.ToString("yyyy_MM");
-
-                    var fullPath = Path.Combine(serverPath, imagePath);
-
-                    if (!Directory.Exists(fullPath))
-                    {
-                        Directory.CreateDirectory(fullPath);
-                    }
-
-                    for (int i = 0; i < Input.Images.Count; i++)
-                    {
-                        string ext = Input.Images[i].FileName.Substring(Input.Images[i].FileName.LastIndexOf('.'));
-                        string fileName = DateTimeOffset.Now.ToUnixTimeSeconds() + "_"  + RandomString.GenerateRandomString() + ext;
-
-                        var file = Path.Combine(fullPath, fileName);
-
-                        using (var fileStream = new FileStream(file, FileMode.Create))
-                        {
-                            await Input.Images[i].CopyToAsync(fileStream);
-                        }
-
-                        images.Add(new MyProjectImage()
-                        {
-                            Time = DateTime.Now,
-                            Location = Path.Combine(imagePath, fileName)
-                        });
-                    }
                 }
 
                 MyProject myProject = new MyProject();
@@ -117,9 +84,8 @@ namespace PortfolioWebApp.Areas.Admin.Pages.MyProjects
                 myProject.Title = Input.Title;
                 myProject.ShortDescription = Input.ShortDescription;
                 myProject.HTMLContent = Input.HTMLContent;
-                myProject.MyProjectImages = images;
 
-                (bool, string) result = await _projectService.CreateAsync(myProject);
+                (bool, string) result = await _projectService.CreateAsync(myProject, Input.Images);
 
                 StatusMessage = result.Item2;
 

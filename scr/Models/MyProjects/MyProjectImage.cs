@@ -12,5 +12,6 @@ namespace PortfolioWebApp.Models.MyProjects
         public DateTime Time { get; set; }
         [MaxLength(200)]
         public string Location { get; set; }
+        public MyProject MyProject { get; set; }
 }
 }

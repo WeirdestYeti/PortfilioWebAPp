@@ -1,0 +1,174 @@
+﻿@page "{id:int?}"
+@model PortfolioWebApp.Areas.Admin.Pages.MyProjects.EditModel
+@{
+    ViewData["Title"] = "Edit My Project";
+}
+
+    <form id="editMyProject" method="post" enctype="multipart/form-data">
+
+        <partial name="_StatusMessage" for="StatusMessage" />
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+        <input asp-for="Input.Id" />
+        <div class="form-group row">
+            <label asp-for="Input.Title" class="col-sm-2 col-form-label">
+                Title
+            </label>
+            <div class="col-sm-10">
+                <input asp-for="Input.Title" class="form-control">
+                <span asp-validation-for="Input.Title" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Input.ShortDescription" class="col-sm-2 col-form-label">
+                Short Description
+            </label>
+            <div class="col-sm-10">
+                <input asp-for="Input.ShortDescription" class="form-control">
+                <span asp-validation-for="Input.ShortDescription" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Input.IsRepositoryPrivate" class="col-sm-2 col-form-label">
+                Repository Status
+                <small class="form-text text-muted"></small>
+            </label>
+            <div class="col-sm-10">
+                <div class="form-check custom-control custom-checkbox">
+                    <input class="custom-control-input" asp-for="Input.IsRepositoryPrivate">
+                    <label class="custom-control-label" asp-for="Input.IsRepositoryPrivate">
+                        Is Repository private?
+                    </label>
+                </div>
+            </div>
+            <span asp-validation-for="Input.IsRepositoryPrivate" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Input.RepositoryUrl" class="col-sm-2 col-form-label">
+                Repository Url
+            </label>
+            <div class="col-sm-10">
+                <input asp-for="Input.RepositoryUrl" class="form-control">
+                <span asp-validation-for="Input.RepositoryUrl" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Input.HTMLContent" class="col-sm-2 col-form-label">
+                Page HTML
+                <small class="form-text text-muted">Raw html which will display your project content.</small>
+            </label>
+            <div class="col-sm-10">
+                <textarea asp-for="Input.HTMLContent" class="form-control" rows="15"></textarea>
+            </div>
+            <span asp-validation-for="Input.HTMLContent" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Input.ExistingImagesEdit" class="col-sm-2 col-form-label">
+                Images
+                <small class="form-text text-muted">Edit existing images.</small>
+            </label>
+            <div class="col-sm-10">
+                @if (Model.MyProjectImages != null && Model.MyProjectImages.Count > 0)
+                {
+                    <div class="alert alert-dark" role="alert">
+                        Check pictures if you wan't to remove them or upload new ones below.
+                    </div>
+                    <div class="row">
+                        @for (int i = 0; i < Model.MyProjectImages.Count; i++)
+                        {
+                        <div class="col-md-3 pt-1">
+                            <div class="card">
+                                <div class="card-header p-2">
+                                    <div class="form-check custom-control custom-checkbox">
+                                        <input asp-for="Input.ExistingImagesEdit[i].Id" />
+                                        <input type="checkbox" class="custom-control-input" asp-for="Input.ExistingImagesEdit[i].SelectedToDelete">
+                                        <label class="custom-control-label text-danger font-weight-bold" asp-for="Input.ExistingImagesEdit[i].SelectedToDelete">Check to remove.</label>
+                                    </div>
+                                </div>
+                                <a class="pop" style="cursor: pointer">
+                                    <img src="/@(Model.MyProjectImages[i].Location)" class="card-img-bottom" alt="...">
+                                </a>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    @: <p class="text-center">No images found.</p>
+                }
+            </div>
+            <span asp-validation-for="Input.ExistingImagesEdit" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <label asp-for="Input.NewImages" class="col-sm-2 col-form-label">
+                Images
+                <small class="form-text text-muted">Upload multiple images.</small>
+            </label>
+            <div class="col-sm-10">
+                <div class="input-group mb-3">
+                    <div class="custom-file">
+                        <input class="custom-file-input" asp-for="Input.NewImages" multiple>
+                        <label class="custom-file-label" asp-for="Input.NewImages">Choose file</label>
+                    </div>
+                </div>
+            </div>
+            <span asp-validation-for="Input.NewImages" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a asp-page="/MyProjects/Index" asp-area="Admin" class="btn btn-info" role="button" aria-pressed="true">Back</a>
+            </div>
+        </div>
+
+    </form>
+
+
+    <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Picture</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <img src="" class="imagepreview" style="width: 100%;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                var fileLabel = $(this).next('.custom-file-label');
+                var files = $(this)[0].files;
+
+                if (files.length > 1) {
+                    fileLabel.html(files.length + ' files selected');
+                }
+                else if (files.length == 1) {
+                    fileLabel.html(files[0].name);
+                }
+            });
+
+
+
+            $('.pop').on('click', function () {
+                $('.imagepreview').attr('src', $(this).find('img').attr('src'));
+                $('#imagemodal').modal('show');
+            });		
+        });
+
+        
+    </script>
+}

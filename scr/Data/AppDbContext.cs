@@ -23,6 +23,7 @@ namespace PortfolioWebApp.Data
         public DbSet<SimplePage> SimplePages { get; set; }
         public DbSet<PortfolioNavigation> PortfolioNavigations { get; set; }
         public DbSet<MyProject> MyProjects { get; set; }
+        public DbSet<MyProjectImage> MyProjectImages { get; set; }
 
     }
 }

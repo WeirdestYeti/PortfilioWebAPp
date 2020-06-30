@@ -9,7 +9,7 @@ using PortfolioWebApp.Data;
 namespace PortfolioWebApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200622195705_MyProjects")]
+    [Migration("20200624191659_MyProjects")]
     partial class MyProjects
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -264,7 +264,7 @@ namespace PortfolioWebApp.Migrations
 
                     b.HasIndex("MyProjectId");
 
-                    b.ToTable("MyProjectImage");
+                    b.ToTable("MyProjectImages");
                 });
 
             modelBuilder.Entity("PortfolioWebApp.Models.Navigation.PortfolioNavigation", b =>
@@ -365,7 +365,7 @@ namespace PortfolioWebApp.Migrations
 
             modelBuilder.Entity("PortfolioWebApp.Models.MyProjects.MyProjectImage", b =>
                 {
-                    b.HasOne("PortfolioWebApp.Models.MyProjects.MyProject", null)
+                    b.HasOne("PortfolioWebApp.Models.MyProjects.MyProject", "MyProject")
                         .WithMany("MyProjectImages")
                         .HasForeignKey("MyProjectId");
                 });

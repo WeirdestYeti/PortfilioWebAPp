@@ -132,6 +132,47 @@ namespace PortfolioWebApp.Services
             return null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<(bool, string)> DeleteMyProjectByIdAsync(int id)
+        {
+            if(id != 0)
+            {
+                MyProject myProject = await _dbContext.MyProjects.SingleOrDefaultAsync(x => x.Id == id);
+                if(myProject != null)
+                {
+                    List<MyProjectImage> projectImages = await _dbContext.MyProjectImages.Where(x => x.MyProject.Id == myProject.Id).ToListAsync();
+                    
+                    if(projectImages != null && projectImages.Count > 0)
+                    {
+                        for (int i = 0; i < projectImages.Count; i++)
+                        {
+                            var imgaePath = Path.Combine(_environment.WebRootPath, projectImages[i].Location);
+
+                            if (File.Exists(imgaePath))
+                            {
+                                File.Delete(imgaePath);
+                            }
+                        }
+
+                        _dbContext.MyProjectImages.RemoveRange(projectImages);
+
+                    }
+
+                    _dbContext.MyProjects.Remove(myProject);
+
+                    await _dbContext.SaveChangesAsync();
+
+                    return (true, "Project deleted.");
+                }
+            }
+
+            return (false, "No project found.");
+        }
+
 
         /// <summary>
         /// Deletes a single image from database and server.
@@ -176,10 +217,9 @@ namespace PortfolioWebApp.Services
 
             if (formFiles.Count > 0)
             {
-                var serverPath = Path.Combine(_environment.WebRootPath);
-                var imagePath = "uploads/images/" + "monthly_" + DateTime.Now.ToString("yyyy_MM");
+                string imagePath = Path.Combine("uploads", "images", "monthly_" + DateTime.Now.ToString("yyyy_MM"));
 
-                var fullPath = Path.Combine(serverPath, imagePath);
+                string fullPath = Path.Combine(_environment.WebRootPath, imagePath);
 
                 if (!Directory.Exists(fullPath))
                 {

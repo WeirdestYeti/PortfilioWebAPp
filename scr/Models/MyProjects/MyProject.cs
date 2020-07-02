@@ -17,6 +17,7 @@ namespace PortfolioWebApp.Models.MyProjects
         public bool IsRepositoryPrivate { get; set; }
         [MaxLength(256)]
         public string RepositoryUrl { get; set; }
+        public bool ShowSlideshow { get; set; }
         public string HTMLContent { get; set; }
         public List<MyProjectImage> MyProjectImages { get; set; }
     }

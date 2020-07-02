@@ -43,6 +43,7 @@ namespace PortfolioWebApp.Areas.Admin.Pages.MyProjects
             public bool IsRepositoryPrivate { get; set; }
             [MaxLength(256)]
             public string RepositoryUrl { get; set; }
+            public bool ShowSlideshow { get; set; }
             public string HTMLContent { get; set; }
             public List<IFormFile> Images { get; set; }
         }
@@ -84,6 +85,7 @@ namespace PortfolioWebApp.Areas.Admin.Pages.MyProjects
                 myProject.Title = Input.Title;
                 myProject.ShortDescription = Input.ShortDescription;
                 myProject.HTMLContent = Input.HTMLContent;
+                myProject.ShowSlideshow = Input.ShowSlideshow;
 
                 (bool, string) result = await _projectService.CreateAsync(myProject, Input.Images);
 

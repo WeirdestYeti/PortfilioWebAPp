@@ -86,6 +86,7 @@ namespace PortfolioWebApp.Services
                     dbProject.ShortDescription = myProject.ShortDescription;
                     dbProject.IsRepositoryPrivate = myProject.IsRepositoryPrivate;
                     dbProject.RepositoryUrl = myProject.RepositoryUrl;
+                    dbProject.ShowSlideshow = myProject.ShowSlideshow;
                     dbProject.HTMLContent = myProject.HTMLContent;
 
                     _dbContext.Update(dbProject);

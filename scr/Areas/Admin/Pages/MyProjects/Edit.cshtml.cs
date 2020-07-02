@@ -46,6 +46,7 @@ namespace PortfolioWebApp.Areas.Admin.Pages.MyProjects
             [MaxLength(256)]
             public string RepositoryUrl { get; set; }
             public string HTMLContent { get; set; }
+            public bool ShowSlideshow { get; set; }
             public List<ExistingImagesEdit> ExistingImagesEdit { get; set; }
 
             public List<IFormFile> NewImages { get; set; }
@@ -77,6 +78,7 @@ namespace PortfolioWebApp.Areas.Admin.Pages.MyProjects
                     Input.IsRepositoryPrivate = myProject.IsRepositoryPrivate;
                     Input.RepositoryUrl = myProject.RepositoryUrl;
                     Input.HTMLContent = myProject.HTMLContent;
+                    Input.ShowSlideshow = myProject.ShowSlideshow;
 
                     MyProjectImages = myProject.MyProjectImages;
 

@@ -65,6 +65,21 @@
             <span asp-validation-for="Input.HTMLContent" class="text-danger"></span>
         </div>
         <div class="form-group row">
+            <label asp-for="Input.ShowSlideshow" class="col-sm-2 col-form-label">
+                Image Slideshow
+                <small class="form-text text-muted"></small>
+            </label>
+            <div class="col-sm-10">
+                <div class="form-check custom-control custom-checkbox">
+                    <input class="custom-control-input" asp-for="Input.ShowSlideshow" checked>
+                    <label class="custom-control-label" asp-for="Input.ShowSlideshow">
+                        Show slideshow?
+                    </label>
+                </div>
+            </div>
+            <span asp-validation-for="Input.ShowSlideshow" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
             <label asp-for="Input.ExistingImagesEdit" class="col-sm-2 col-form-label">
                 Images
                 <small class="form-text text-muted">Edit existing images.</small>
@@ -78,20 +93,20 @@
                     <div class="row">
                         @for (int i = 0; i < Model.MyProjectImages.Count; i++)
                         {
-                        <div class="col-md-3 pt-1">
-                            <div class="card">
-                                <div class="card-header p-2">
-                                    <div class="form-check custom-control custom-checkbox">
-                                        <input asp-for="Input.ExistingImagesEdit[i].Id" />
-                                        <input type="checkbox" class="custom-control-input" asp-for="Input.ExistingImagesEdit[i].SelectedToDelete">
-                                        <label class="custom-control-label text-danger font-weight-bold" asp-for="Input.ExistingImagesEdit[i].SelectedToDelete">Check to remove.</label>
+                            <div class="col-md-3 pt-1">
+                                <div class="card">
+                                    <div class="card-header p-2">
+                                        <div class="form-check custom-control custom-checkbox">
+                                            <input asp-for="Input.ExistingImagesEdit[i].Id" />
+                                            <input type="checkbox" class="custom-control-input" asp-for="Input.ExistingImagesEdit[i].SelectedToDelete">
+                                            <label class="custom-control-label text-danger font-weight-bold" asp-for="Input.ExistingImagesEdit[i].SelectedToDelete">Check to remove.</label>
+                                        </div>
                                     </div>
+                                    <a class="pop" style="cursor: pointer">
+                                        <img src="/@(Model.MyProjectImages[i].Location)" class="card-img-bottom" alt="...">
+                                    </a>
                                 </div>
-                                <a class="pop" style="cursor: pointer">
-                                    <img src="/@(Model.MyProjectImages[i].Location)" class="card-img-bottom" alt="...">
-                                </a>
                             </div>
-                        </div>
                         }
                     </div>
                 }

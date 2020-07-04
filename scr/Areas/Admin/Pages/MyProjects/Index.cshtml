@@ -40,7 +40,7 @@
                                     Action
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" >View</a>
+                                    <a class="dropdown-item" target="_blank" href="/MyProjects/View/@(Model.MyProjects[i].Id + "-" + Model.MyProjects[i].Title)">View</a>
                                     <a class="dropdown-item" asp-page="/MyProjects/Edit" asp-area="Admin" asp-route-id="@Model.MyProjects[i].Id">Edit</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item text-danger" asp-page="/MyProjects/Delete" asp-area="Admin" asp-route-id="@Model.MyProjects[i].Id">Delete</a>

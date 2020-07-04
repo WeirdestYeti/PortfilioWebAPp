@@ -45,6 +45,9 @@ namespace PortfolioWebApp.Areas.Admin.Pages.MyProjects
             public bool IsRepositoryPrivate { get; set; }
             [MaxLength(256)]
             public string RepositoryUrl { get; set; }
+            [MaxLength(256)]
+            [Display(Name = "Thumbnail Url")]
+            public string ThumbnailUrl { get; set; }
             public string HTMLContent { get; set; }
             public bool ShowSlideshow { get; set; }
             public List<ExistingImagesEdit> ExistingImagesEdit { get; set; }
@@ -79,6 +82,7 @@ namespace PortfolioWebApp.Areas.Admin.Pages.MyProjects
                     Input.RepositoryUrl = myProject.RepositoryUrl;
                     Input.HTMLContent = myProject.HTMLContent;
                     Input.ShowSlideshow = myProject.ShowSlideshow;
+                    Input.ThumbnailUrl = myProject.ThumbnailUrl;
 
                     MyProjectImages = myProject.MyProjectImages;
 
@@ -134,13 +138,17 @@ namespace PortfolioWebApp.Areas.Admin.Pages.MyProjects
                     }
                 }
 
-                for (int i = 0; i < Input.ExistingImagesEdit.Count; i++)
+                if(Input.ExistingImagesEdit != null)
                 {
-                    if (Input.ExistingImagesEdit[i].SelectedToDelete)
+                    for (int i = 0; i < Input.ExistingImagesEdit.Count; i++)
                     {
-                        await _projectService.DeleteProjectImageByIdAsync(Input.Id, Input.ExistingImagesEdit[i].Id);
+                        if (Input.ExistingImagesEdit[i].SelectedToDelete)
+                        {
+                            await _projectService.DeleteProjectImageByIdAsync(Input.Id, Input.ExistingImagesEdit[i].Id);
+                        }
                     }
                 }
+
 
                 MyProject myProject = new MyProject();
 
@@ -150,6 +158,8 @@ namespace PortfolioWebApp.Areas.Admin.Pages.MyProjects
                 myProject.IsRepositoryPrivate = Input.IsRepositoryPrivate;
                 myProject.RepositoryUrl = Input.RepositoryUrl;
                 myProject.HTMLContent = Input.HTMLContent;
+                myProject.ShowSlideshow = Input.ShowSlideshow;
+                myProject.ThumbnailUrl = Input.ThumbnailUrl;
 
                 (bool, string) result = await _projectService.EditAsync(myProject, Input.NewImages);
 

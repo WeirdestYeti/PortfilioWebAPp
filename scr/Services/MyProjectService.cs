@@ -46,7 +46,7 @@ namespace PortfolioWebApp.Services
         {
             if(myProject != null)
             {
-                if(formFiles != null || formFiles.Count > 0)
+                if(formFiles != null && formFiles.Count > 0)
                 {
                     myProject.MyProjectImages = await SaveImagesAsync(formFiles, myProject);
                 }
@@ -86,6 +86,7 @@ namespace PortfolioWebApp.Services
                     dbProject.ShortDescription = myProject.ShortDescription;
                     dbProject.IsRepositoryPrivate = myProject.IsRepositoryPrivate;
                     dbProject.RepositoryUrl = myProject.RepositoryUrl;
+                    dbProject.ThumbnailUrl = myProject.ThumbnailUrl;
                     dbProject.ShowSlideshow = myProject.ShowSlideshow;
                     dbProject.HTMLContent = myProject.HTMLContent;
 
@@ -203,6 +204,35 @@ namespace PortfolioWebApp.Services
             }
 
             return (false, "Image or Project not found");
+        }
+
+        public async Task<MyProject> GetByUrlWithImagesAsync(string url)
+        {
+            if(url != null)
+            {
+                string[] splitUrl = url.Split('-', 2);
+
+                if(splitUrl.Length == 2)
+                {
+                    int id;
+
+                    bool idParseResult = int.TryParse(splitUrl[0], out id);
+
+                    if (idParseResult)
+                    {
+
+                        MyProject myProject = await _dbContext.MyProjects.SingleOrDefaultAsync(x => x.Id == id && string.Compare(splitUrl[1], x.Title) == 0);
+                        if (myProject != null)
+                        {
+                            myProject.MyProjectImages = await _dbContext.MyProjectImages.Where(x => x.MyProject.Id == myProject.Id).ToListAsync();
+                        }
+
+                        return myProject;
+                    }
+                }    
+            }
+
+            return null;
         }
 
         #region Private

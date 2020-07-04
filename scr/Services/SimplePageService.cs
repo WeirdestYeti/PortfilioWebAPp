@@ -149,22 +149,21 @@ namespace PortfolioWebApp.Services
         {
             if(url != null)
             {
-                //SimplePage simplePage = await _dbContext.SimplePages.SingleOrDefaultAsync(x => url.Equals(x.Id + "-" + x.Title));
+                string[] splitUrl = url.Split('-', 2);
 
-                SimplePage simplePage = null;
-
-                List<SimplePage> simplePages = await _dbContext.SimplePages.ToListAsync();
-
-                for (int i = 0; i < simplePages.Count; i++)
+                if(splitUrl.Length == 2)
                 {
-                    string test = simplePages[i].Id + "-" + simplePages[i].Title;
-                    if (url.Equals(test))
-                    {
-                        simplePage = simplePages[i];
-                    }
-                }
+                    int id;
 
-                return simplePage;
+                    bool idParsedResult = int.TryParse(splitUrl[0], out id);
+
+                    if (idParsedResult)
+                    {
+                        SimplePage simplePage = await _dbContext.SimplePages.SingleOrDefaultAsync(x => x.Id == id && string.Compare(splitUrl[1], x.Title) == 0);
+
+                        return simplePage;
+                    }                   
+                }               
             }
             return null;
         }

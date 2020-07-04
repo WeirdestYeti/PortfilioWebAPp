@@ -55,6 +55,15 @@
             </div>
         </div>
         <div class="form-group row">
+            <label asp-for="Input.ThumbnailUrl" class="col-sm-2 col-form-label">
+                Thumbnail Url
+            </label>
+            <div class="col-sm-10">
+                <input asp-for="Input.ThumbnailUrl" class="form-control">
+                <span asp-validation-for="Input.ThumbnailUrl" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
             <label asp-for="Input.HTMLContent" class="col-sm-2 col-form-label">
                 Page HTML
                 <small class="form-text text-muted">Raw html which will display your project content.</small>
@@ -71,7 +80,7 @@
             </label>
             <div class="col-sm-10">
                 <div class="form-check custom-control custom-checkbox">
-                    <input class="custom-control-input" asp-for="Input.ShowSlideshow" checked>
+                    <input class="custom-control-input" asp-for="Input.ShowSlideshow">
                     <label class="custom-control-label" asp-for="Input.ShowSlideshow">
                         Show slideshow?
                     </label>

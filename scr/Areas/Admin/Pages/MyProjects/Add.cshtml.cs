@@ -40,6 +40,12 @@ namespace PortfolioWebApp.Areas.Admin.Pages.MyProjects
             [Required]
             [MaxLength(256)]
             public string ShortDescription { get; set; }
+            [Required]
+            public ProjectStatus CurrentStatus { get; set; }
+            [MaxLength(50)]
+            public string UsedLanguages { get; set; }
+            [MaxLength(150)]
+            public string OtherTechnologies { get; set; }
             public bool IsRepositoryPrivate { get; set; }
             [MaxLength(256)]
             public string RepositoryUrl { get; set; }
@@ -90,6 +96,9 @@ namespace PortfolioWebApp.Areas.Admin.Pages.MyProjects
                 myProject.HTMLContent = Input.HTMLContent;
                 myProject.ShowSlideshow = Input.ShowSlideshow;
                 myProject.ThumbnailUrl = Input.ThumbnailUrl;
+                myProject.CurrentStatus = Input.CurrentStatus;
+                myProject.UsedLanguages = Input.UsedLanguages;
+                myProject.OtherTechnologies = Input.OtherTechnologies;
 
                 (bool, string) result = await _projectService.CreateAsync(myProject, Input.Images);
 

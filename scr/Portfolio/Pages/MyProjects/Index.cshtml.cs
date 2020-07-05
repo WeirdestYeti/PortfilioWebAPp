@@ -24,6 +24,7 @@ namespace PortfolioWebApp.Portfolio.Pages.MyProjects
             public string Title { get; set; }
             public string ShortDescription { get; set; }
             public string ThumbnailUrl { get; set; }
+            public bool IsRepositoryPrivate { get; set; }
         }
 
         public List<Project> Projects { get; set; }
@@ -42,7 +43,8 @@ namespace PortfolioWebApp.Portfolio.Pages.MyProjects
                         Id = MyProjects[i].Id,
                         Title = MyProjects[i].Title,
                         ShortDescription = MyProjects[i].ShortDescription,
-                        ThumbnailUrl = MyProjects[i].ThumbnailUrl
+                        ThumbnailUrl = MyProjects[i].ThumbnailUrl,
+                        IsRepositoryPrivate = MyProjects[i].IsRepositoryPrivate
                     }
                 );
             }

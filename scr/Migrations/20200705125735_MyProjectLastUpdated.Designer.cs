@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PortfolioWebApp.Data;
 
 namespace PortfolioWebApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200705125735_MyProjectLastUpdated")]
+    partial class MyProjectLastUpdated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -219,9 +221,6 @@ namespace PortfolioWebApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("CurrentStatus")
-                        .HasColumnType("int");
-
                     b.Property<string>("HTMLContent")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
@@ -230,10 +229,6 @@ namespace PortfolioWebApp.Migrations
 
                     b.Property<DateTime>("LastUpdated")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<string>("OtherTechnologies")
-                        .HasColumnType("varchar(150) CHARACTER SET utf8mb4")
-                        .HasMaxLength(150);
 
                     b.Property<string>("RepositoryUrl")
                         .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
@@ -253,10 +248,6 @@ namespace PortfolioWebApp.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("varchar(60) CHARACTER SET utf8mb4")
                         .HasMaxLength(60);
-
-                    b.Property<string>("UsedLanguages")
-                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
-                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 

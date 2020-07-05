@@ -4,45 +4,119 @@
     ViewData["Title"] = Model.MyProject.Title;
 }
 
-    <div class="pb-5 text-center">
-        <h2><u>@(Model.MyProject.Title)</u></h2>
-    </div>
+<div class="pb-5 text-center">
+    <h1><u>@(Model.MyProject.Title)</u></h1>
+</div>
 
 
 
-@if (Model.MyProject.ShowSlideshow)
-{
-    if (Model.MyProject.MyProjectImages != null && Model.MyProject.MyProjectImages.Count > 0)
-    {
-<div class="container-fluid w-75">
-    <div id="carouselProjectImages" class="carousel slide border border-dark rounded" data-ride="carousel">
-        <ol class="carousel-indicators">
-            @for (int i = 0; i < Model.MyProject.MyProjectImages.Count; i++)
-            {
-                <li data-target="#carouselProjectImages" data-slide-to="@(i)" class="@(i == 0 ? "active" : null)"></li>
-            }
-        </ol>
-        <div class="carousel-inner">
-            @for (int i = 0; i < Model.MyProject.MyProjectImages.Count; i++)
-            {
-                <div class="carousel-item @(i == 0 ? "active" : null)">
-                    <img src="/@(Model.MyProject.MyProjectImages[i].Location)" class="d-block w-100" style="height: 30em;" alt="...">
+
+<div class="container-fluid">
+    <div class="row justify-content-md-center">
+        <div class="card bg-dark mb-3" style="width: 80% !important;">
+            <div class="card-img-top">
+                @if (Model.MyProject.ShowSlideshow && Model.MyProject.MyProjectImages != null && Model.MyProject.MyProjectImages.Count > 0)
+                {
+                    <div id="carouselProjectImages" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            @for (int i = 0; i < Model.MyProject.MyProjectImages.Count; i++)
+                            {
+                                <li data-target="#carouselProjectImages" data-slide-to="@(i)" class="@(i == 0 ? "active" : null)"></li>
+                            }
+                        </ol>
+                        <div class="carousel-inner">
+                            @for (int i = 0; i < Model.MyProject.MyProjectImages.Count; i++)
+                            {
+                                <div class="carousel-item @(i == 0 ? "active" : null)">
+                                    <img src="/@(Model.MyProject.MyProjectImages[i].Location)" class="d-block w-100 rounded-top" style="height: 30em;" alt="...">
+                                </div>
+                            }
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselProjectImages" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselProjectImages" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <svg class="bd-placeholder-img bd-placeholder-img-lg img-fluid" width="100%" height="300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Image">
+                        <title>Placeholder</title>
+                        <rect width="100%" height="100%" fill="#868e96"></rect>
+                        <text x="50%" y="50%" fill="#dee2e6" dy=".3em">@Model.MyProject.Title</text>
+                    </svg>
+                }
+            </div>
+            <div class="row no-gutters">
+                <div class="col-md-6 d-flex flex-column" style="border-right: 1px solid rgba(0,0,0,.125);">
+
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item bg-dark"><b>Repository Status:</b> <span class="float-right">@(Model.MyProject.IsRepositoryPrivate ? "Private" : "Public")</span></li>
+                        @if (!Model.MyProject.IsRepositoryPrivate)
+                        {
+                            <li class="list-group-item bg-dark"><b>Repository:</b> <span class="float-right"><a target="_blank" href="@(Model.MyProject.RepositoryUrl)" role="button" class="btn btn-sm btn-outline-secondary text-white">Go To</a></span></li>
+                        }
+                        <li class="list-group-item bg-dark">
+                            <b>Status:</b>
+
+                            @if (Model.MyProject.CurrentStatus == PortfolioWebApp.Models.MyProjects.ProjectStatus.InDevelopment)
+                            {
+                                <span class="float-right text-warning">
+                                    In Development
+                                </span>
+                            }
+                            else if (Model.MyProject.CurrentStatus == PortfolioWebApp.Models.MyProjects.ProjectStatus.OnHold)
+                            {
+                                <span class="float-right text-danger">
+                                    On Hold
+                                </span>
+                            }
+                            else if (Model.MyProject.CurrentStatus == PortfolioWebApp.Models.MyProjects.ProjectStatus.Finished)
+                            {
+                                <span class="float-right text-success">
+                                    Finished
+                                </span>
+                            }
+                        </li>
+                        @if (!string.IsNullOrEmpty(Model.MyProject.UsedLanguages) || !string.IsNullOrWhiteSpace(Model.MyProject.UsedLanguages))
+                        {
+                            <li class="list-group-item bg-dark"><b>Used Languages:</b> <span class="float-right">@(Model.MyProject.UsedLanguages)</span></li>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.MyProject.OtherTechnologies) || !string.IsNullOrWhiteSpace(Model.MyProject.OtherTechnologies))
+                        {
+                            <li class="list-group-item bg-dark"><b>Technologies:</b> <span class="float-right">@(Model.MyProject.OtherTechnologies)</span></li>
+                        }
+                    </ul>
                 </div>
-            }
+                <div class="col-md-6">
+                    <div class="card-body">
+                        <h5 class="card-title">About</h5>
+                        <p class="card-text">@Model.MyProject.ShortDescription</p>
+                        <p class="card-text"><small class="text-muted">Last updated @(Model.MyProject.LastUpdated.ToString("HH:mm:ss dd/MM/yyyy"))</small></p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <a class="carousel-control-prev" href="#carouselProjectImages" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselProjectImages" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
     </div>
 </div>
-    
-    }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <div class="pt-5 pb-5">
     @Html.Raw(Model.MyProject.HTMLContent)

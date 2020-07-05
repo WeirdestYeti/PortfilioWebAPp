@@ -50,6 +50,7 @@ namespace PortfolioWebApp.Services
                 {
                     myProject.MyProjectImages = await SaveImagesAsync(formFiles, myProject);
                 }
+                myProject.LastUpdated = DateTime.Now;
 
                 _dbContext.MyProjects.Add(myProject);
 
@@ -84,11 +85,15 @@ namespace PortfolioWebApp.Services
 
                     dbProject.Title = myProject.Title;
                     dbProject.ShortDescription = myProject.ShortDescription;
+                    dbProject.CurrentStatus = myProject.CurrentStatus;
                     dbProject.IsRepositoryPrivate = myProject.IsRepositoryPrivate;
                     dbProject.RepositoryUrl = myProject.RepositoryUrl;
                     dbProject.ThumbnailUrl = myProject.ThumbnailUrl;
                     dbProject.ShowSlideshow = myProject.ShowSlideshow;
                     dbProject.HTMLContent = myProject.HTMLContent;
+                    dbProject.LastUpdated = DateTime.Now;
+                    dbProject.UsedLanguages = myProject.UsedLanguages;
+                    dbProject.OtherTechnologies = myProject.OtherTechnologies;
 
                     _dbContext.Update(dbProject);
                     await _dbContext.SaveChangesAsync();

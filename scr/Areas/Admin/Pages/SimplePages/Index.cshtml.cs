@@ -19,7 +19,8 @@ namespace PortfolioWebApp.Areas.Admin.Pages.SimplePages
             _simplePageService = simplePageService;
         }
 
-        public bool ShowHomePageInfo { get; set; }
+        public bool IsHomePageSetUp { get; set; } = false;
+        public bool IsContactPageSetUp { get; set; } = false;
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -30,10 +31,15 @@ namespace PortfolioWebApp.Areas.Admin.Pages.SimplePages
         {
             SimplePages = await _simplePageService.GetAllPagesAsync();
 
-            SimplePage homePage = SimplePages.SingleOrDefault(x => x.Title.Equals("Home"));
+            if(SimplePages.Any(x => x.Title.Equals("Home")))
+            {
+                IsHomePageSetUp = true;
+            }
 
-            if (homePage == null) ShowHomePageInfo = true;
-            else ShowHomePageInfo = false;
+            if(SimplePages.Any(x => x.Title.Equals("Contact")))
+            {
+                IsContactPageSetUp = true;
+            }
 
             return Page();
         }

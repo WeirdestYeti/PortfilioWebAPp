@@ -6,10 +6,16 @@
     <div class="row">
         <div class="col">
             <partial name="_StatusMessage" for="StatusMessage" />
-            @if (Model.ShowHomePageInfo)
+            @if (!Model.IsHomePageSetUp)
             {
                 <div class="alert alert-warning" role="alert">
-                    <strong>Warning!</strong> You don't have a custom home page set up. System will use default until you add a page with a name "Home"!
+                    <strong>Warning!</strong> You don't have a custom <b>Home</b> page set up. System will use default until you add a page with a name <b>"Home"</b>!
+</div>
+            }
+            @if (!Model.IsContactPageSetUp)
+            {
+                <div class="alert alert-warning" role="alert">
+                    <strong>Warning!</strong> You don't have a custom <b>Contact</b> page set up. System will use default until you add a page with a name <b>"Contact"</b>!
                 </div>
             }
             <div class="pb-3 float-right">

@@ -73,7 +73,9 @@ namespace PortfolioWebApp.Areas.Setup.Pages
             public string DbPassword { get; set; }
 
             // Mailing
-
+            [EmailAddress]
+            [Display(Name = "Email From")]
+            public string MailerEmailFrom { get; set; }
             [Display(Name = "Host")]
             public string MailerHost { get; set; }
             [Display(Name = "Port")]
@@ -211,6 +213,7 @@ namespace PortfolioWebApp.Areas.Setup.Pages
 
                     _mailerOptions.Update(opt =>
                     {
+                        opt.EmailFrom = Input.MailerEmailFrom;
                         opt.Host = Input.MailerHost;
                         opt.Port = Input.MailerPort;
                         opt.CredentialUserName = Input.MailerCredentialUserName;

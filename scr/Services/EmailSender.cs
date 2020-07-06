@@ -38,7 +38,7 @@ namespace PortfolioWebApp.Services
         public async Task Execute(string subject, string message, string email)
         {
             MailMessage mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress(_mailerOptions.CredentialUserName);
+            mailMessage.From = new MailAddress(_mailerOptions.EmailFrom);
             mailMessage.To.Add(email);
             mailMessage.Body = message;
             mailMessage.Subject = subject;

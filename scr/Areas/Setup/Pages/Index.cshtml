@@ -105,6 +105,11 @@
 
                             <div asp-validation-summary="All" class="text-danger"></div>
                             <div class="form-group">
+                                <label asp-for="Input.MailerEmailFrom"></label>
+                                <input asp-for="Input.MailerEmailFrom" class="form-control" />
+                                <span asp-validation-for="Input.MailerEmailFrom" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
                                 <label asp-for="Input.MailerHost"></label>
                                 <input asp-for="Input.MailerHost" class="form-control" />
                                 <span asp-validation-for="Input.MailerHost" class="text-danger"></span>

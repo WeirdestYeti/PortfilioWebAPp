@@ -12,6 +12,6 @@
         <a class="nav-link @(route.Equals("/Index") || route.Equals("/") ? "active" : "")" href="/">Home</a>
         @for (int i = 0; i < navigations.Count; i++)
         {
-            <a class="nav-link @(route.Contains(navigations[i].Url) ? "active" : "")" href="@(navigations[i].Url)">@(navigations[i].Name)</a>
+            <a target="@(navigations[i].Url.StartsWith("http") ? "_blank" : null)" class="nav-link @(route.Contains(navigations[i].Url) ? "active" : "")" href="@(navigations[i].Url)">@(navigations[i].Name)</a>
         }
     </nav>

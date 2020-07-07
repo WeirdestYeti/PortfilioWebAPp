@@ -93,12 +93,16 @@ namespace PortfolioWebApp.Services
                     }
                 }
 
-                SimplePage homePage = await _dbContext.SimplePages.SingleOrDefaultAsync(x => x.Title.Equals(simplePage.Title));
-
-                if (homePage != null)
+                if (!simplePageDb.Title.Equals("Home"))
                 {
-                    return (false, "There can only be one page with a title Home.");
+                    SimplePage homePage = await _dbContext.SimplePages.SingleOrDefaultAsync(x => x.Title.Equals(simplePage.Title));
+
+                    if (homePage != null)
+                    {
+                        return (false, "There can only be one page with a title Home.");
+                    }
                 }
+                
 
                 simplePageDb.Title = simplePage.Title;
                 simplePageDb.CustomUrl = simplePage.CustomUrl;

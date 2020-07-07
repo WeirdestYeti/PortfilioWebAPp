@@ -1,0 +1,126 @@
+﻿@page
+@model PortfolioWebApp.Areas.Admin.Pages.SettingsModel
+@{
+    ViewData["Title"] = "Settings";
+}
+
+<partial name="_StatusMessage" for="StatusMessage" />
+
+
+<div class="card mb-3">
+    <h5 class="card-header">App Settings</h5>
+    <div class="card-body">
+        <form id="editAppSettings" method="post">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <label asp-for="AppSettingsInput.AppTitle" class="col-sm-2 col-form-label">
+                    App Name (Title)
+                    <small class="form-text text-muted">Name of the app.</small>
+                </label>
+                <div class="col-sm-10">
+                    <input asp-for="AppSettingsInput.AppTitle" class="form-control">
+                    <span asp-validation-for="AppSettingsInput.AppTitle" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="AppSettingsInput.ConnectionString" class="col-sm-2 col-form-label">
+                    Connection string
+                    <small class="form-text text-muted">Connection string.</small>
+                </label>
+                <div class="col-sm-10">
+                    <input asp-for="AppSettingsInput.ConnectionString" class="form-control" disabled style="display: none;">
+                    <input id="ConnStringPlaceholder" value="*hidden*" class="form-control" disabled>
+                    <span asp-validation-for="AppSettingsInput.ConnectionString" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">
+                    Show Connection String
+                    <small class="form-text text-muted">Connection string.</small>
+                </label>
+                <div class="col-sm-10">
+                    <input id="ToggleConnectionString" role="button" type="button" class="btn btn-sm btn-warning" value="Toggle">
+                </div>
+            </div>
+            <button asp-page-handler="AppSettings" type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+
+
+<div class="card">
+    <h5 class="card-header">Mailer Settings</h5>
+    <div class="card-body">
+        <form id="editMailerSettings" method="post">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <label asp-for="MailerSettingsInput.EmailFrom" class="col-sm-2 col-form-label">
+                    Email From
+                    <small class="form-text text-muted">Sent from.</small>
+                </label>
+                <div class="col-sm-10">
+                    <input asp-for="MailerSettingsInput.EmailFrom" class="form-control">
+                    <span asp-validation-for="MailerSettingsInput.EmailFrom" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="alert alert-info" role="alert">
+                <b>SmtpClient only.</b>
+            </div>
+            <div class="form-group row">
+                <label asp-for="MailerSettingsInput.Host" class="col-sm-2 col-form-label">
+                    Host
+                    <small class="form-text text-muted">Client Host.</small>
+                </label>
+                <div class="col-sm-10">
+                    <input asp-for="MailerSettingsInput.Host" class="form-control">
+                    <span asp-validation-for="MailerSettingsInput.Host" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="MailerSettingsInput.Port" class="col-sm-2 col-form-label">
+                    Port
+                    <small class="form-text text-muted">Client Port.</small>
+                </label>
+                <div class="col-sm-10">
+                    <input asp-for="MailerSettingsInput.Port" class="form-control">
+                    <span asp-validation-for="MailerSettingsInput.Port" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="MailerSettingsInput.Username" class="col-sm-2 col-form-label">
+                    Username
+                    <small class="form-text text-muted">Credentials.</small>
+                </label>
+                <div class="col-sm-10">
+                    <input asp-for="MailerSettingsInput.Username" class="form-control">
+                    <span asp-validation-for="MailerSettingsInput.Username" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="MailerSettingsInput.Password" class="col-sm-2 col-form-label">
+                    Password
+                    <small class="form-text text-muted">Credentials.</small>
+                </label>
+                <div class="col-sm-10">
+                    <input asp-for="MailerSettingsInput.Password" class="form-control">
+                    <span asp-validation-for="MailerSettingsInput.Password" class="text-danger"></span>
+                </div>
+            </div>
+            <button asp-page-handler="MailerSettings" type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $("#ToggleConnectionString").click(function () {
+            $("#AppSettingsInput_ConnectionString").toggle();
+            $("#ConnStringPlaceholder").toggle();
+        });
+    </script>
+}

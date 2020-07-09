@@ -27,7 +27,6 @@ namespace PortfolioWebApp.Portfolio.Pages.MyProjects
                 MyProject = await _projectService.GetByUrlWithImagesAsync(url);
                 if(MyProject != null)
                 {
-
                     return Page();
                 }
             }

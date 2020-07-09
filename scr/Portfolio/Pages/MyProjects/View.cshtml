@@ -53,8 +53,71 @@
             </div>
             <div class="row no-gutters">
                 <div class="col-md-6 d-flex flex-column" style="border-right: 1px solid rgba(0,0,0,.125);">
-
+                    
                     <ul class="list-group list-group-flush">
+                        <li class="list-group-item bg-dark">
+                            <div class="row">
+                                <div class="col-sm-5 text-truncate"><b>Repository Status:</b></div>
+                                <div class="col-sm-7 text-right">@(Model.MyProject.IsRepositoryPrivate ? "Private" : "Public")</div>
+                            </div>
+                        </li>
+                        @if (!Model.MyProject.IsRepositoryPrivate)
+                        {
+                        <li class="list-group-item bg-dark">
+                            <div class="row">
+                                <div class="col-sm-5 text-truncate"><b>Repository:</b></div>
+                                <div class="col-sm-7 text-right"><a target="_blank" href="@(Model.MyProject.RepositoryUrl)" role="button" class="btn btn-sm btn-outline-secondary text-white">Go To</a></div>
+                            </div>
+                        </li>
+                        }
+                        <li class="list-group-item bg-dark">
+                            <div class="row">
+                                <div class="col-sm-5 text-truncate"><b>Status:</b></div>
+                                <div class="col-sm-7 text-right">
+                                    @if (Model.MyProject.CurrentStatus == PortfolioWebApp.Models.MyProjects.ProjectStatus.InDevelopment)
+                                    {
+                                    <span class="text-warning">
+                                        In Development
+                                    </span>
+                                    }
+                                    else if (Model.MyProject.CurrentStatus == PortfolioWebApp.Models.MyProjects.ProjectStatus.OnHold)
+                                    {
+                                    <span class="text-danger">
+                                        On Hold
+                                    </span>
+                                    }
+                                    else if (Model.MyProject.CurrentStatus == PortfolioWebApp.Models.MyProjects.ProjectStatus.Finished)
+                                    {
+                                    <span class="text-success">
+                                        Finished
+                                    </span>
+                                    }
+                                </div>
+                            </div>
+                        </li>
+                        @if (!string.IsNullOrEmpty(Model.MyProject.UsedLanguages) || !string.IsNullOrWhiteSpace(Model.MyProject.UsedLanguages))
+                        {
+                        <li class="list-group-item bg-dark">
+                            <div class="row">
+                                <div class="col-sm-5 text-truncate"><b>Used Languages:</b></div>
+                                <div class="col-sm-7 text-right">@(Model.MyProject.UsedLanguages)</div>
+                            </div>
+                        </li>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.MyProject.OtherTechnologies) || !string.IsNullOrWhiteSpace(Model.MyProject.OtherTechnologies))
+                        {
+                        <li class="list-group-item bg-dark">
+                            <div class="row">
+                                <div class="col-sm-5 text-truncate"><b>Technologies:</b></div>
+                                <div class="col-sm-7 text-right">@(Model.MyProject.OtherTechnologies)</div>
+                            </div>
+                        </li>
+                        }
+
+                    </ul>
+
+
+                    @*<ul class="list-group list-group-flush">
                         <li class="list-group-item bg-dark"><b>Repository Status:</b> <span class="float-right">@(Model.MyProject.IsRepositoryPrivate ? "Private" : "Public")</span></li>
                         @if (!Model.MyProject.IsRepositoryPrivate)
                         {
@@ -90,7 +153,7 @@
                         {
                             <li class="list-group-item bg-dark"><b>Technologies:</b> <span class="float-right">@(Model.MyProject.OtherTechnologies)</span></li>
                         }
-                    </ul>
+                    </ul>*@
                 </div>
                 <div class="col-md-6">
                     <div class="card-body">

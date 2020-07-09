@@ -49,6 +49,12 @@ namespace PortfolioWebApp.Portfolio.Pages.MyProjects
                 );
             }
 
+            if(Projects != null)
+            {
+                Projects = Projects.OrderByDescending(x => x.Id).ToList();
+            }
+            
+
             return Page();
         }
     }

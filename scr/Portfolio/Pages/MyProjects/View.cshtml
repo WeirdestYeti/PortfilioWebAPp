@@ -11,9 +11,9 @@
 
 
 
-<div class="container-fluid">
-    <div class="row justify-content-md-center">
-        <div class="card bg-dark mb-3" style="width: 80% !important;">
+<div class="container-fluid justify-content-md-center" style="width: 80% !important;">
+    <div class="row">
+        <div class="card bg-dark mb-3">
             <div class="card-img-top">
                 @if (Model.MyProject.ShowSlideshow && Model.MyProject.MyProjectImages != null && Model.MyProject.MyProjectImages.Count > 0)
                 {
@@ -115,45 +115,6 @@
                         }
 
                     </ul>
-
-
-                    @*<ul class="list-group list-group-flush">
-                        <li class="list-group-item bg-dark"><b>Repository Status:</b> <span class="float-right">@(Model.MyProject.IsRepositoryPrivate ? "Private" : "Public")</span></li>
-                        @if (!Model.MyProject.IsRepositoryPrivate)
-                        {
-                            <li class="list-group-item bg-dark"><b>Repository:</b> <span class="float-right"><a target="_blank" href="@(Model.MyProject.RepositoryUrl)" role="button" class="btn btn-sm btn-outline-secondary text-white">Go To</a></span></li>
-                        }
-                        <li class="list-group-item bg-dark">
-                            <b>Status:</b>
-
-                            @if (Model.MyProject.CurrentStatus == PortfolioWebApp.Models.MyProjects.ProjectStatus.InDevelopment)
-                            {
-                                <span class="float-right text-warning">
-                                    In Development
-                                </span>
-                            }
-                            else if (Model.MyProject.CurrentStatus == PortfolioWebApp.Models.MyProjects.ProjectStatus.OnHold)
-                            {
-                                <span class="float-right text-danger">
-                                    On Hold
-                                </span>
-                            }
-                            else if (Model.MyProject.CurrentStatus == PortfolioWebApp.Models.MyProjects.ProjectStatus.Finished)
-                            {
-                                <span class="float-right text-success">
-                                    Finished
-                                </span>
-                            }
-                        </li>
-                        @if (!string.IsNullOrEmpty(Model.MyProject.UsedLanguages) || !string.IsNullOrWhiteSpace(Model.MyProject.UsedLanguages))
-                        {
-                            <li class="list-group-item bg-dark"><b>Used Languages:</b> <span class="float-right">@(Model.MyProject.UsedLanguages)</span></li>
-                        }
-                        @if (!string.IsNullOrEmpty(Model.MyProject.OtherTechnologies) || !string.IsNullOrWhiteSpace(Model.MyProject.OtherTechnologies))
-                        {
-                            <li class="list-group-item bg-dark"><b>Technologies:</b> <span class="float-right">@(Model.MyProject.OtherTechnologies)</span></li>
-                        }
-                    </ul>*@
                 </div>
                 <div class="col-md-6">
                     <div class="card-body">
@@ -166,20 +127,6 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <div class="pt-5 pb-5">
     @Html.Raw(Model.MyProject.HTMLContent)

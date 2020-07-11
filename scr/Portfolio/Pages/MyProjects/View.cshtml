@@ -120,7 +120,7 @@
                     <div class="card-body">
                         <h5 class="card-title">About</h5>
                         <p class="card-text">@Model.MyProject.ShortDescription</p>
-                        <p class="card-text"><small class="text-muted">Last updated @(Model.MyProject.LastUpdated.ToString("HH:mm:ss dd/MM/yyyy"))</small></p>
+                        <p class="card-text"><small class="text-muted">Last updated @( Model.MyProject.LastUpdated.ToLocalTime().ToString("HH:mm:ss dd/MM/yyyy"))</small></p>
                     </div>
                 </div>
             </div>

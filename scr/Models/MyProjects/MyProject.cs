@@ -24,7 +24,7 @@ namespace PortfolioWebApp.Models.MyProjects
         public string RepositoryUrl { get; set; }
         [MaxLength(256)]
         public string ThumbnailUrl { get; set; }
-        public DateTime LastUpdated { get; set; } 
+        public DateTimeOffset LastUpdated { get; set; } 
         public bool ShowSlideshow { get; set; }
         public string HTMLContent { get; set; }
         public List<MyProjectImage> MyProjectImages { get; set; }

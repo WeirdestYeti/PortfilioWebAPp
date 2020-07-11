@@ -91,7 +91,7 @@ namespace PortfolioWebApp.Services
                     dbProject.ThumbnailUrl = myProject.ThumbnailUrl;
                     dbProject.ShowSlideshow = myProject.ShowSlideshow;
                     dbProject.HTMLContent = myProject.HTMLContent;
-                    dbProject.LastUpdated = DateTime.Now;
+                    dbProject.LastUpdated = DateTimeOffset.UtcNow;
                     dbProject.UsedLanguages = myProject.UsedLanguages;
                     dbProject.OtherTechnologies = myProject.OtherTechnologies;
 

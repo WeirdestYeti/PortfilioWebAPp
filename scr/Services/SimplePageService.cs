@@ -93,7 +93,7 @@ namespace PortfolioWebApp.Services
                     }
                 }
 
-                if (!simplePageDb.Title.Equals("Home"))
+                if (simplePage.Title.Equals("Home") && !simplePageDb.Title.Equals("Home"))
                 {
                     SimplePage homePage = await _dbContext.SimplePages.SingleOrDefaultAsync(x => x.Title.Equals(simplePage.Title));
 

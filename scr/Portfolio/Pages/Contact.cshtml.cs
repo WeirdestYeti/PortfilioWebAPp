@@ -65,7 +65,7 @@ namespace PortfolioWebApp.Portfolio.Pages
                 try
                 {
                     MailMessage msz = new MailMessage();
-                    msz.From = new MailAddress(Input.Email); //Form email
+                    msz.From = new MailAddress(Input.Email, Input.Name); //Form email
                     //from contact us page 
                     msz.To.Add(_mailerOptions.Value.EmailFrom); // For contact page we are using email adress which are we sending from for other use cases.
                     msz.Subject = Input.Subject;
@@ -80,7 +80,7 @@ namespace PortfolioWebApp.Portfolio.Pages
                         EnableSsl = true
                     };
 
-                    smtpClient.Send(msz);
+                    await smtpClient.SendMailAsync(msz);
 
                     ModelState.Clear();
                     StatusMessage = "Thank you for Contacting me.";
